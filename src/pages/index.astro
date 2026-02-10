@@ -1,17 +1,495 @@
 ---
+interface CogFeed {
+  Title: string;
+  PubDate: string; // fmt like Sun, 08 Feb 2026 19:25:48 -0800
+  Version: string;
+  ShortVersionString: string;
+  Description: string;
+  MinimumSystemVersion: string;
+  Enclosure: Enclosure;
+  ReleaseNotesLink: string;
+}
 
+interface Enclosure {
+  URL: string;
+  Length: string;
+  Type: string;
+  EdSignature: string;
+}
+
+interface CogFeedFmtd extends CogFeed {
+  size: string;
+  date: string;
+}
+
+import { filesize } from "filesize";
+import { DateTime } from "luxon";
+
+import "../styles.scss";
+import { late } from "astro:schema";
+import { astroCalledServerError } from "astro:actions";
+
+const feed = await fetch("https://cogcdn.cog.losno.co/mercury.json").then((r) =>
+  r.json(),
+);
+
+const feedFmtd: CogFeedFmtd[] = feed.map((item: CogFeed) => {
+  return {
+    ...item,
+    size: filesize(parseInt(item.Enclosure.Length)),
+    date: DateTime.fromRFC2822(item.PubDate).toLocaleString(
+      DateTime.DATETIME_MED,
+    ),
+  };
+});
+const [latest, ...older] = feedFmtd;
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Cog</title>
+    <meta
+      name="description"
+      content="A free and open source audio player for macOS."
+    />
+    <meta property="og:url" content={Astro.site} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Cog" />
+    <meta
+      property="og:description"
+      content="A free and open source audio player for macOS."
+    />
+    <meta property="og:image" content={Astro.site + "hero.png"} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="cog.losno.co" />
+    <meta property="twitter:url" content={Astro.site} />
+    <meta name="twitter:title" content="Cog" />
+    <meta
+      name="twitter:description"
+      content="A free and open source audio player for macOS."
+    />
+    <meta name="twitter:image" content={Astro.site + "hero.png"} />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </head>
+  <body>
+    <header class="pb-3 mb-4 border-bottom sticky-top">
+      <div class="container pt-3">
+        <div class="d-flex align-items-center text-dark text-decoration-none">
+          <img class="me-3" src="/favicon-32x32.png" alt="Cog logo" /><span
+            class="fs-4 fw-bold text-primary">Cog</span
+          ><span class="ms-auto"
+            ><a
+              class="github-button"
+              href="https://github.com/losnoco/cog"
+              data-size="large"
+              data-show-count="true"
+              aria-label="Star losnoco/cog on GitHub">Star</a
+            ></span
+          ><span class="ms-auto"
+            ><a href="https://discord.gg/4A6mrhtfAz" aria-label="Discord server"
+              ><img
+                src="https://img.shields.io/discord/743619368222720040?style=for-the-badge&logo=discord"
+                alt="Join the Discord server"
+              /></a
+            ></span
+          >
+          <div class="dropdown ms-auto">
+            <a
+              class="btn btn-success dropdown-toggle btn-sm"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false">Donate</a
+            >
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="https://paypal.me/kode54"
+                  target="_blank"
+                  >PayPal
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="https://patreon.com/kode54"
+                  target="_blank"
+                  >Patreon
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="https://ko-fi.com/kode54"
+                  target="_blank"
+                  >Ko-fi
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="https://liberapay.com/kode54"
+                  target="_blank"
+                  >LiberaPay
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="https://github.com/sponsors/kode54"
+                  target="_blank">GitHub Sponsors</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="container py-3">
+      <div class="p-3 mb-4 jumbotron rounded-3">
+        <div class="container-fluid py-3">
+          <h2 class="pb-3">A free and open source audio player for macOS.</h2>
+          <div class="float-end">
+            <a href="https://apps.apple.com/us/app/cog-kode54/id1630499622"
+              ><img src="/masdl.svg" alt="Download on the Mac App Store" /></a
+            >
+          </div><a class="btn btn-success btn-lg" href={latest.Enclosure.URL}
+            >Download latest version {latest.Version}
+            <span class="text-white text-opacity-75 fw-light"
+              >{latest.size}</span
+            ></a
+          >
+          <div class="pt-3">
+            Published on {latest.date} &bull; Requires macOS {
+              latest.MinimumSystemVersion
+            }
+          </div>
+          <ul class="list-unstyled pb-3" set:html={latest.Description} /><a
+            class="btn btn-primary btn"
+            href="#older">Download older versions</a
+          >
+        </div>
+      </div>
+      <section id="features">
+        <h2>Features</h2>
+        <ul>
+          <li>Gapless playback</li>
+          <li>Automatic updates</li>
+          <li>Global hotkeys</li>
+          <li>Desktop notifications</li>
+          <li>Shuffle, both albums and tracks</li>
+          <li>Repeat single track, album or whole playlist</li>
+          <li>
+            Playback from HTTP(S) sources, both livestreams and static files<ul>
+              <li>
+                Supports Apple&apos;s HTTP Live Streaming (HLS) using FFmpeg
+              </li>
+              <li>
+                Supports live metadata updates of continuous streaming servers,
+                including Shoutcast, Icecast, Ogg Vorbis comments, and timed
+                ID3v2 packets, where employed by the streamer
+              </li>
+            </ul>
+          </li>
+          <li>
+            CUE Sheet support, including embedded CUE Sheets in several formats
+          </li>
+          <li>
+            Album artwork per track, both embedded and external, cached per
+            unique image, in JPEG, PNG, GIF, WebP, HEIC, or AVIF format. HEIC
+            requires macOS Mojave, while WebP requires Big Sur.
+          </li>
+          <li>Graphic equalizer</li>
+          <li>Spectrum visualization in the toolbar</li>
+          <li>
+            HRTF for binaural sound
+            <ul>
+              <li>
+                Head tracking supported with AirPods and other compatible
+                headphones; requires macOS Monterey or later
+              </li>
+            </ul>
+          </li>
+          <li>
+            Speed control and pitch shifting/time stretching using the <a
+              href="https://breakfastquay.com/rubberband/"
+              >Rubber Band library</a
+            >.
+          </li>
+        </ul>
+        <h2>Supported formats</h2>
+        <div class="row">
+          <div class="col">
+            <ul>
+              <li>MP3 (including free format, up to 640kbps; using <a href="https://github.com/lieff/minimp3">minimp3</a>)</li>
+              <li>WAV</li>
+              <li>MPEG-4 container, including chapter support</li>
+              <li>Matroska container, including chapter support</li>
+              <li>
+                AAC<ul>
+                  <li>LC-AAC</li>
+                  <li>HE-AAC</li>
+                  <li>HE-AACv2</li>
+                  <li>xHE-AAC (USAC)</li>
+                </ul>
+              </li>
+              <li>Apple Lossless (ALAC)</li>
+              <li>FLAC (including OggFLAC)</li>
+              <li>Ogg Opus</li>
+              <li>Ogg Vorbis</li>
+              <li>AC3</li>
+              <li>Windows Media Audio</li>
+              <li>DTS</li>
+              <li>TrueHD</li>
+              <li>HDCD</li>
+              <li>TTA True Audio</li>
+              <li>TAK (Tom&apos;s Lossless Audio Kompressor)</li>
+              <li>Monkey&apos;s Audio (APE)</li>
+              <li>APL (APE Linking File)</li>
+              <li>TwinVQ</li>
+              <li>RealAudio</li>
+              <li>ATRAC3</li>
+              <li>Musepack</li>
+              <li>WavPack, including DSD support</li>
+              <li>Interchange File Format (IFF) including DSDIFF</li>
+              <li>DSD Stream File (DFF)</li>
+              <li>Wideband Single-bit Data (WSD)</li>
+            </ul>
+          </div>
+          <div class="col">
+            <ul>
+              <li>
+                MIDI<ul>
+                  <li>
+                    SoundFont support via <a
+                      href="http://www.un4seen.com/bass.html">BASSMIDI</a
+                    >
+                  </li>
+                  <li>
+                    FM synthesis via <a href="https://nukeykt.retrohost.net/"
+                      >Nuked OPL3</a
+                    >
+                  </li>
+                  <li>
+                    Sound Canvas emulation via <a
+                      href="https://github.com/nukeykt/Nuked-SC55">Nuked SC55</a
+                    >
+                  </li>
+                  <li>
+                    Audio Unit synthesizer support, including Apple's
+                    DLSMusicDevice.
+                  </li>
+                </ul>
+              </li>
+              <li>Shorten</li>
+              <li>
+                Tracker music
+                <ul>
+                  <li>
+                    <a
+                      href="
+                    https:
+                    lib.openmpt.org
+                    libopenmpt
+                    "
+                      >libopenmpt</a
+                    > (<a href="https://openmpt.org/features#modules"
+                      >full list of supported formats</a
+                    >).
+                  </li>
+                  <li>AHX/HVL (Hively Tracker)</li>
+                  <li>Syntrax/Jaytrax</li>
+                </ul>
+              </li>
+              <li>SID</li>
+              <li>
+                Game music<ul>
+                  <li>GBS (Game Boy)</li>
+                  <li>NSF (Nintendo)</li>
+                  <li>SPC and SNSF (Super Nintendo)</li>
+                  <li>
+                    VGM (Master System, Genesis/Mega Drive, Game Gear, etc)
+                  </li>
+                  <li>VGZ (compressed variant of the above)</li>
+                  <li>PSF (PlayStation)</li>
+                  <li>SSF (Saturn)</li>
+                  <li>DSF (Dreamcast)</li>
+                  <li>QSF (Q-Sound)</li>
+                  <li>USF (Nintendo 64)</li>
+                  <li>NCSF and 2SF (Nintendo DS)</li>
+                  <li>Organya (Cave Story)</li>
+                  <li>
+                    Streamed music via <a href="https://vgmstream.org"
+                      >vgmstream</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li>
+                Archive files<ul>
+                  <li>ZIP</li>
+                  <li>RAR</li>
+                  <li>GZip</li>
+                  <li>7Z</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <section id="older" class="pt-5">
+        <h2 class="pb-3">Older versions</h2>
+        {
+          older.map((item: CogFeedFmtd) => (
+            <article class="pb-4" id={"v" + item.Version}>
+              <>
+                <h4>
+                  Version {item.Version}{" "}
+                  <span class="text-muted">{item.date}</span>
+                </h4>
+                <a class="btn btn-success btn-lg" href={item.Enclosure.URL}>
+                  Download
+                  <span class="text-white text-opacity-75 fw-light">
+                    {item.size}
+                  </span>
+                </a>
+                <ul class="list-unstyled pb-3" set:html={item.Description} />
+              </>
+            </article>
+          ))
+        }
+      </section>
+
+      <section class="border-top" id="oldest">
+        <div class="btn-group-vertical">
+          <a
+            class="btn btn-danger text-start"
+            href="https://cogcdn.cog.losno.co/Cog-3b628c398.zip"
+            >Download version 1148 <span
+              class="text-white text-opacity-75 fw-light"
+              >for Mountain Lion</span
+            ></a
+          ><a
+            class="btn btn-danger text-start"
+            href="https://cogcdn.cog.losno.co/Cog-ff44bc4d.zip"
+            >Download version 2405 <span
+              class="text-white text-opacity-75 fw-light">for Sierra</span
+            ></a
+          ><a
+            class="btn btn-danger text-start"
+            href="https://cogcdn.cog.losno.co/Cog-e0a358efb.zip"
+            >Download version 3349 <span
+              class="text-white text-opacity-75 fw-light">for High Sierra</span
+            ></a
+          >
+        </div>
+      </section>
+    </div>
+    <footer class="footer mt-auto py-3 jumbotron">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-12">
+            <span class="text-muted"></span>&copy; 2021-<span>2026</span>
+            <a href="https://kode54.net">Christopher Snowhill</a>. <a
+              href="https://cogx.org/">Originally developed</a
+            > by <a href="http://vspader.com/">Vincent Spader</a>.
+          </div>
+
+          <div class="text-right col-md-4 col-12">
+            <a class="px-2" href="https://losno.co"
+              ><img
+                src="https://losno.co/WordmarkForLight.fb9d0c35.svg"
+                alt="LoSnoCo"
+                style="height:16pt"
+              /></a
+            >
+            <a href="https://astro.build"
+              ><img
+                src="https://astro.badg.es/v2/built-with-astro/tiny.svg"
+                alt="Built with Astro"
+                width="120"
+                height="20"
+              /></a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+  <script>
+    import { Dropdown } from "bootstrap";
+
+    (() => {
+      "use strict";
+
+      const storedTheme = localStorage.getItem("theme");
+
+      const getPreferredTheme = () => {
+        if (storedTheme) {
+          return storedTheme;
+        }
+
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+      };
+
+      const setTheme = function (theme) {
+        if (
+          theme === "auto" &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches
+        ) {
+          document.documentElement.setAttribute("data-bs-theme", "dark");
+        } else {
+          document.documentElement.setAttribute("data-bs-theme", theme);
+        }
+      };
+
+      setTheme(getPreferredTheme());
+
+      /*const showActiveTheme = theme => {
+        const activeThemeIcon = document.querySelector('.theme-icon-active use')
+        const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+        const svgOfActiveBtn = btnToActive.querySelector('svg use').getAttribute('href')
+
+        document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+            element.classList.remove('active')
+        })
+
+        btnToActive.classList.add('active')
+        activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+    }*/
+
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", () => {
+          if (storedTheme !== "light" || storedTheme !== "dark") {
+            setTheme(getPreferredTheme());
+          }
+        });
+
+      window.addEventListener("DOMContentLoaded", () => {
+        //showActiveTheme(getPreferredTheme())
+
+        document.querySelectorAll("[data-bs-theme-value]").forEach((toggle) => {
+          toggle.addEventListener("click", () => {
+            const theme = toggle.getAttribute("data-bs-theme-value");
+            localStorage.setItem("theme", theme);
+            setTheme(theme);
+            //showActiveTheme(theme)
+          });
+        });
+      });
+    })();
+  </script>
 </html>

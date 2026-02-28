@@ -186,22 +186,42 @@ header {
 .btn-download {
   background: var(--text);
   color: var(--bg);
-  border: none;
+  border: 2px solid transparent;
   font-weight: 600;
   &:hover {
-    opacity: 0.85;
-    color: var(--bg);
+    background: $losnoco-orange !important;
+    color: #fff !important;
+  }
+  &:active, &:first-child:active {
+    background: darken($losnoco-orange, 10%) !important;
+    color: #fff !important;
+  }
+  &:focus {
+    background: $losnoco-orange !important;
+    color: #fff !important;
+    border: 2px solid darken($losnoco-orange, 15%) !important;
   }
 }
 
 .btn-outline-losnoco {
   background: transparent;
   color: var(--text);
-  border: 1px solid var(--border);
+  border: 2px solid var(--border);
   font-weight: 600;
   &:hover {
-    background: var(--surface);
-    color: var(--text);
+    background: $losnoco-orange !important;
+    color: #fff !important;
+    border-color: transparent !important;
+  }
+  &:active, &:first-child:active {
+    background: darken($losnoco-orange, 10%) !important;
+    color: #fff !important;
+    border-color: transparent !important;
+  }
+  &:focus {
+    background: $losnoco-orange !important;
+    color: #fff !important;
+    border-color: darken($losnoco-orange, 15%) !important;
   }
 }
 

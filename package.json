@@ -9,11 +9,11 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.17.1",
+    "astro": "^5.18.0",
     "bootstrap": "^5.3.8",
     "filesize": "^11.0.13",
     "luxon": "^3.7.2",
-    "preact": "^10.28.3",
+    "preact": "^10.28.4",
     "sass": "^1.97.3"
   },
   "devDependencies": {

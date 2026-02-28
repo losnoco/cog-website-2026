@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-
 // ── LoSnoCo Design Tokens ───────────────────────────
 
 $losnoco-orange:     #F25E0D;
@@ -30,9 +28,10 @@ $border-radius:       8px;
 $border-radius-sm:    6px;
 $border-radius-lg:    10px;
 
-$font-family-sans-serif: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
+$font-family-sans-serif: 'Inter LoSnoCo', system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
 
 $font-size-base: 0.9375rem; // 15px
 $line-height-base: 1.6;
@@ -393,6 +392,11 @@ footer.site-footer {
     color: var(--muted);
     &:hover { color: var(--text); }
   }
+
+  .losnoco-wordmark-link {
+    color: var(--text);
+    &:hover { color: var(--text); }
+  }
 }
 
 // ── Section Dividers ────────────────────────────────
@@ -401,12 +405,6 @@ section {
   border-bottom: 1px solid var(--border);
 }
 
-// ── Code ────────────────────────────────────────────
-
-code {
-  background: var(--code-bg);
-  font-variant-numeric: tabular-nums;
-}
 
 // ── Responsive ──────────────────────────────────────
 

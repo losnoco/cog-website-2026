@@ -1,0 +1,242 @@
+@import "tailwindcss";
+
+/* ── Theme: Static brand tokens ──────────────────────── */
+@theme {
+  --color-*: initial;
+
+  /* Reserved */
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+
+  /* Brand (always static) */
+  --color-orange:     #F25E0D;
+  --color-teal:       #0DF2C9;
+  --color-teal-light: #00967F;
+  --color-purple:     #7B41B9;
+  --color-chris:      #2a9;
+
+  /* Typography scale */
+  --text-display:              2.8125rem;
+  --text-display--line-height: 1;
+  --text-heading:              1.625rem;
+  --text-heading--line-height: 1.25;
+  --text-subheading:           1.0625rem;
+  --text-subheading--line-height: 1.4;
+  --text-label:                0.6875rem;
+  --text-label--line-height:   1.4;
+  --text-body:                 0.9375rem;
+  --text-body--line-height:    1.7;
+  --text-technical:            0.8375rem;
+  --text-technical--line-height: 1.6;
+  --text-caption:              0.6875rem;
+  --text-caption--line-height: 1.5;
+
+  /* Letter spacing */
+  --tracking-display:    -0.03em;
+  --tracking-heading:    -0.02em;
+  --tracking-subheading: -0.01em;
+  --tracking-label:       0.20em;
+  --tracking-caption:     0.08em;
+
+  /* Radius */
+  --radius-container: 10px;
+  --radius-card:       8px;
+  --radius-note:       6px;
+  --radius-code:       3px;
+
+  /* Content width */
+  --container-content: 1100px;
+}
+
+/* ── Theme-switchable surface tokens ──────────────────── */
+/* Raw CSS vars change on .dark; @theme inline maps them into Tailwind */
+
+:root {
+  --bg:         #F4F3F0;
+  --surface:    #ECEAE5;
+  --border:     #D8D5CE;
+  --muted:      #888880;
+  --text:       #1A1917;
+  --header-bg:  rgb(244 243 240 / 0.92);
+}
+
+.dark {
+  --bg:         #1A1917;
+  --surface:    #242220;
+  --border:     #3A3835;
+  --muted:      #888880;
+  --text:       #E8E6E1;
+  --header-bg:  rgb(26 25 23 / 0.92);
+}
+
+@theme inline {
+  --font-sans:       'Inter LoSnoCo', ui-sans-serif, system-ui, sans-serif;
+  --font-mono:       'Iosevka LoSnoCo NoLig Web', ui-monospace, monospace;
+
+  --color-bg:      var(--bg);
+  --color-surface: var(--surface);
+  --color-border:  var(--border);
+  --color-muted:   var(--muted);
+  --color-text:    var(--text);
+  --color-nav-bg:  var(--header-bg);
+
+  /* Darkened orange variants for active/focus states */
+  --color-orange-active: color-mix(in srgb, #F25E0D 88%, black);
+  --color-orange-focus:  color-mix(in srgb, #F25E0D 82%, black);
+}
+
+@layer base {
+  html {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  a { color: var(--color-teal-light); }
+  .dark a { color: var(--color-teal); }
+
+}
+
+@layer components {
+  /* Section label */
+  .sec-label {
+    @apply text-label font-bold tracking-label uppercase text-orange mb-3 block;
+  }
+
+  /* Nav brand */
+  .nav-brand {
+    @apply flex items-center gap-2 font-bold text-text no-underline hover:text-text;
+    font-size: 1.1rem;
+    letter-spacing: -0.01em;
+  }
+
+  /* Nav links (uppercase label style) */
+  .nav-link {
+    @apply text-label font-semibold uppercase no-underline text-muted
+           hover:text-text transition-colors;
+    letter-spacing: 0.1em;
+    transition-duration: 120ms;
+  }
+
+  /* Buttons — shared base */
+  .btn {
+    @apply inline-flex items-center gap-2 font-semibold rounded-card
+           cursor-pointer border-2 border-transparent transition-colors no-underline;
+    transition-duration: 120ms;
+  }
+  .btn-sm { @apply text-[0.82rem] px-3 py-1.5; }
+  .btn-lg { @apply text-body px-5 py-2.5; }
+
+  /* Download button: dark bg → orange on hover */
+  .btn-download {
+    @apply bg-text text-bg
+           hover:bg-orange hover:text-white hover:border-transparent
+           active:bg-orange-active active:text-white
+           focus-visible:bg-orange focus-visible:text-white focus-visible:border-orange-focus;
+  }
+
+  /* Outline button: border → orange on hover */
+  .btn-outline-losnoco {
+    @apply bg-transparent text-text border-border
+           hover:bg-orange hover:text-white hover:border-transparent
+           active:bg-orange-active active:text-white
+           focus-visible:bg-orange focus-visible:text-white focus-visible:border-orange-focus;
+  }
+
+  /* Donate button (also acts as <summary>) */
+  .btn-donate {
+    @apply text-label font-semibold uppercase text-orange
+           border border-orange bg-transparent rounded-card px-3 py-1.5
+           cursor-pointer list-none
+           hover:bg-orange hover:text-white
+           focus-visible:bg-orange focus-visible:text-white;
+    letter-spacing: 0.1em;
+  }
+
+  /* Feature list */
+  .feature-list {
+    @apply list-none p-0;
+  }
+  .feature-list > li {
+    @apply py-2 text-body border-b border-border last:border-b-0;
+    line-height: 1.65;
+  }
+  .feature-list ul {
+    @apply list-none mt-1;
+    padding-left: 1.25rem;
+  }
+  .feature-list ul li {
+    @apply text-technical text-muted py-0.5;
+  }
+
+  /* Formats grid */
+  .formats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    @apply bg-border border border-border rounded-container overflow-hidden;
+  }
+  .formats-col {
+    @apply bg-surface p-6;
+  }
+  .formats-col ul { @apply list-none p-0 m-0; }
+  .formats-col > ul > li { @apply text-[0.85rem] py-1; line-height: 1.55; }
+  .formats-col ul ul { padding-left: 1rem; }
+  .formats-col ul ul li { @apply text-[0.8rem] text-muted; }
+
+  /* Version entry */
+  .version-entry {
+    @apply py-6 border-b border-border last:border-b-0;
+  }
+  .version-num  { @apply text-body font-bold; }
+  .version-date { @apply text-technical text-muted; font-variant-numeric: tabular-nums; }
+  .version-notes {
+    @apply text-technical text-muted mt-2;
+    line-height: 1.65;
+  }
+  .version-notes ul { @apply list-none p-0; }
+  .version-notes ul li { @apply py-0.5; }
+
+  /* Legacy grid */
+  .legacy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    @apply bg-border border border-border rounded-container overflow-hidden;
+  }
+  .legacy-card {
+    @apply bg-surface p-5 no-underline text-text hover:bg-bg transition-colors;
+    transition-duration: 120ms;
+  }
+  .legacy-ver { @apply text-[0.85rem] font-semibold; }
+  .legacy-os  { @apply text-[0.72rem] text-muted; letter-spacing: 0.05em; }
+
+  /* Jumbotron / hero card */
+  .jumbotron {
+    @apply bg-surface border border-border rounded-container p-6 mb-10;
+  }
+  .hero-title {
+    @apply font-extrabold tracking-display pb-3;
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+  .hero-meta  { @apply text-technical text-muted; }
+  .hero-notes { @apply text-body; line-height: 1.7; }
+  .size-label { @apply font-normal opacity-70; }
+
+  /* Site footer */
+  .site-footer {
+    @apply text-[0.78rem] text-muted pt-6 flex items-center justify-between flex-wrap gap-3;
+  }
+  .site-footer a          { @apply text-muted hover:text-text no-underline; }
+  .site-footer .wordmark  { @apply text-text hover:text-text; }
+
+}
+
+@media (max-width: 639px) {
+  .formats-grid  { grid-template-columns: 1fr; }
+  .legacy-grid   { grid-template-columns: 1fr; }
+  .hero-title    { font-size: 1.5rem; }
+}

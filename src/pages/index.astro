@@ -25,7 +25,7 @@ interface CogFeedFmtd extends CogFeed {
 import { filesize } from "filesize";
 import { DateTime } from "luxon";
 
-import "../styles.scss";
+import "../styles.css";
 
 const feed = await fetch("https://cogcdn.cog.losno.co/mercury.json").then((r) =>
   r.json(),
@@ -38,6 +38,7 @@ const feedFmtd: CogFeedFmtd[] = feed.map((item: CogFeed) => {
     date: DateTime.fromRFC2822(item.PubDate).toLocaleString(
       DateTime.DATETIME_MED,
     ),
+    Description: item.Description.replace(/^[•·]\s*/gm, ""),
   };
 });
 const [latest, ...older] = feedFmtd;
@@ -79,71 +80,90 @@ const [latest, ...older] = feedFmtd;
     <link rel="stylesheet" href="https://assets.losno.co/fonts/inter/stylesheet.css" />
   </head>
   <body>
-    <header class="sticky-top">
-      <div class="container py-2">
-        <div class="d-flex align-items-center gap-3">
-          <a class="nav-brand" href="/">
-            <img src="/favicon-32x32.png" alt="Cog" width="24" height="24" />
-            Cog
-          </a>
+    <header class="sticky top-0 z-50 bg-nav-bg backdrop-blur-sm border-b border-border">
+      <div class="max-w-content mx-auto px-4 py-2 flex items-center">
 
-          <div class="d-flex align-items-center gap-3 ms-auto">
-            <a class="nav-link-upper" href="#features">Features</a>
-            <a class="nav-link-upper" href="#formats">Formats</a>
-            <a class="nav-link-upper" href="#older">Versions</a>
-            <a class="nav-link-upper" href="https://github.com/losnoco/cog" target="_blank">GitHub</a>
-            <a class="nav-link-upper" href="https://discord.gg/4A6mrhtfAz" target="_blank">Discord</a>
+        <a class="nav-brand" href="/">
+          <img src="/favicon-32x32.png" alt="Cog" width="24" height="24" />
+          Cog
+        </a>
 
-            <div class="dropdown">
-              <button
-                class="btn btn-sm btn-donate dropdown-toggle"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false">Donate</button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="https://paypal.me/kode54" target="_blank">PayPal</a></li>
-                <li><a class="dropdown-item" href="https://patreon.com/kode54" target="_blank">Patreon</a></li>
-                <li><a class="dropdown-item" href="https://ko-fi.com/kode54" target="_blank">Ko-fi</a></li>
-                <li><a class="dropdown-item" href="https://liberapay.com/kode54" target="_blank">LiberaPay</a></li>
-                <li><a class="dropdown-item" href="https://github.com/sponsors/kode54" target="_blank">GitHub Sponsors</a></li>
-              </ul>
-            </div>
-          </div>
+        <!-- Hamburger button — mobile only -->
+        <button type="button" id="nav-toggle"
+          class="sm:hidden ml-auto p-1 text-muted hover:text-text cursor-pointer"
+          aria-label="Menu" aria-expanded="false" aria-controls="nav-body">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <rect y="3"  width="20" height="2" rx="1"/>
+            <rect y="9"  width="20" height="2" rx="1"/>
+            <rect y="15" width="20" height="2" rx="1"/>
+          </svg>
+        </button>
+
+        <!-- Nav body — always visible on desktop, toggled on mobile -->
+        <div id="nav-body"
+          class="hidden sm:flex flex-col sm:flex-row sm:items-center gap-3
+            absolute inset-x-0 top-full sm:static
+            bg-nav-bg sm:bg-transparent backdrop-blur-sm sm:[backdrop-filter:none]
+            border-b border-border sm:border-0 p-4 sm:p-0 sm:ml-auto z-40">
+
+          <a class="nav-link" href="#features">Features</a>
+          <span class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0" aria-hidden="true"></span>
+          <a class="nav-link" href="#formats">Formats</a>
+          <span class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0" aria-hidden="true"></span>
+          <a class="nav-link" href="#older">Versions</a>
+          <span class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0" aria-hidden="true"></span>
+          <a class="nav-link" href="https://github.com/losnoco/cog" target="_blank">GitHub</a>
+          <span class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0" aria-hidden="true"></span>
+          <a class="nav-link" href="https://discord.gg/4A6mrhtfAz" target="_blank">Discord</a>
+          <span class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0" aria-hidden="true"></span>
+
+          <!-- Donate dropdown — details/summary, no JS required -->
+          <details class="group/donate relative">
+            <summary class="btn-donate">Donate</summary>
+            <ul class="hidden group-open/donate:block
+              bg-bg border border-border rounded-card py-1 min-w-40 shadow-md
+              sm:absolute sm:right-0 sm:top-full sm:mt-1 sm:z-50">
+              <li><a class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline" href="https://paypal.me/kode54" target="_blank">PayPal</a></li>
+              <li><a class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline" href="https://patreon.com/kode54" target="_blank">Patreon</a></li>
+              <li><a class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline" href="https://ko-fi.com/kode54" target="_blank">Ko-fi</a></li>
+              <li><a class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline" href="https://liberapay.com/kode54" target="_blank">LiberaPay</a></li>
+              <li><a class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline" href="https://github.com/sponsors/kode54" target="_blank">GitHub Sponsors</a></li>
+            </ul>
+          </details>
         </div>
+
       </div>
     </header>
 
-    <div class="container py-4">
+    <div class="max-w-content mx-auto px-4 py-6">
       <!-- Hero -->
-      <div class="jumbotron rounded-3 p-4 mb-5">
-        <div class="sec-label">Audio Player for macOS</div>
-        <h2 class="hero-title pb-3">A free and open source audio player for macOS.</h2>
-
-        <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
-          <a class="btn btn-download btn-lg" href={latest.Enclosure.URL}>
-            Download v{latest.Version}
-            <span class="size-label">{latest.size}</span>
-          </a>
+      <div class="jumbotron flex gap-6">
+        <div class="flex-1 min-w-0">
+          <div class="sec-label">Audio Player for macOS</div>
+          <h2 class="hero-title">A free and open source audio player for macOS.</h2>
+          <div class="flex items-center gap-3 mb-3">
+            <a class="btn btn-download btn-lg" href={latest.Enclosure.URL}>
+              Download v{latest.Version}
+              <span class="size-label">{latest.size}</span>
+            </a>
+          </div>
+          <div class="hero-meta mb-3">Published {latest.date} · Requires macOS {latest.MinimumSystemVersion}</div>
+          <ul class="hero-notes" set:html={latest.Description} />
+          <div class="mt-4">
+            <a class="btn btn-sm btn-outline-losnoco" href="#older">Older versions ↓</a>
+          </div>
+        </div>
+        <div class="shrink-0 flex items-start justify-end">
           <a href="https://apps.apple.com/us/app/cog-kode54/id1630499622">
             <img src="/masdl.svg" alt="Download on the Mac App Store" style="height: 40px;" />
           </a>
         </div>
-
-        <div class="hero-meta mb-3">
-          Published {latest.date} · Requires macOS {latest.MinimumSystemVersion}
-        </div>
-
-        <div class="hero-notes" set:html={latest.Description} />
-
-        <div class="mt-3">
-          <a class="btn btn-sm btn-outline-losnoco" href="#older">Older versions ↓</a>
-        </div>
       </div>
 
       <!-- Features -->
-      <section id="features" class="py-5">
+      <section id="features" class="py-10 border-b border-border">
         <div class="sec-label">Features</div>
-        <h2>What Cog does</h2>
+        <h2 class="text-heading font-bold tracking-heading mb-4">What Cog does</h2>
         <ul class="feature-list">
           <li>Gapless playback</li>
           <li>Automatic updates</li>
@@ -173,9 +193,9 @@ const [latest, ...older] = feedFmtd;
       </section>
 
       <!-- Formats -->
-      <section id="formats" class="py-5">
+      <section id="formats" class="py-10 border-b border-border">
         <div class="sec-label">Supported Formats</div>
-        <h2>Plays almost anything</h2>
+        <h2 class="text-heading font-bold tracking-heading mb-4">Plays almost anything</h2>
         <div class="formats-grid">
           <div class="formats-col">
             <ul>
@@ -269,29 +289,29 @@ const [latest, ...older] = feedFmtd;
       </section>
 
       <!-- Older Versions -->
-      <section id="older" class="py-5">
+      <section id="older" class="py-10 border-b border-border">
         <div class="sec-label">Archive</div>
-        <h2>Older versions</h2>
+        <h2 class="text-heading font-bold tracking-heading mb-4">Older versions</h2>
         {
           older.map((item: CogFeedFmtd) => (
             <div class="version-entry" id={"v" + item.Version}>
-              <div class="d-flex align-items-baseline flex-wrap gap-2 mb-2">
+              <div class="flex items-baseline flex-wrap gap-2 mb-2">
                 <span class="version-num">v{item.Version}</span>
                 <span class="version-date">{item.date}</span>
-                <a class="btn btn-sm btn-outline-losnoco ms-auto" href={item.Enclosure.URL}>
+                <a class="btn btn-sm btn-outline-losnoco ml-auto" href={item.Enclosure.URL}>
                   Download <span class="size-label">{item.size}</span>
                 </a>
               </div>
-              <div class="version-notes" set:html={item.Description} />
+              <ul class="version-notes" set:html={item.Description} />
             </div>
           ))
         }
       </section>
 
       <!-- Legacy -->
-      <section id="oldest" class="py-5">
+      <section id="oldest" class="py-10 border-b border-border">
         <div class="sec-label">Legacy</div>
-        <h2>Very old builds</h2>
+        <h2 class="text-heading font-bold tracking-heading mb-4">Very old builds</h2>
         <div class="legacy-grid">
           <a class="legacy-card" href="https://cogcdn.cog.losno.co/Cog-3b628c398.zip">
             <div class="legacy-ver">Version 1148</div>
@@ -309,13 +329,13 @@ const [latest, ...older] = feedFmtd;
       </section>
 
       <!-- Footer -->
-      <footer class="site-footer pt-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <footer class="site-footer">
         <div>
           &copy; 2021–2026 <a href="https://kode54.net">Christopher Snowhill</a>.
           <a href="https://cogx.org/">Originally developed</a> by <a href="http://vspader.com/">Vincent Spader</a>.
         </div>
-        <div class="d-flex align-items-center gap-3">
-          <a href="https://losno.co" class="losnoco-wordmark-link">
+        <div class="flex items-center gap-3">
+          <a href="https://losno.co" class="wordmark">
             <img
               src="https://assets.losno.co/WordmarkForLight.svg"
               alt="LoSnoCo"
@@ -335,54 +355,45 @@ const [latest, ...older] = feedFmtd;
     </div>
   </body>
   <script>
-    import { Dropdown } from "bootstrap";
-
     (() => {
       "use strict";
-
       const storedTheme = localStorage.getItem("theme");
+      const prefersDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-      const getPreferredTheme = () => {
-        if (storedTheme) {
-          return storedTheme;
-        }
-
-        return window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light";
+      const setTheme = (theme: string) => {
+        const isDark = theme === "dark" || (theme === "auto" && prefersDark());
+        document.documentElement.classList.toggle("dark", isDark);
+        document.documentElement.setAttribute("data-theme", theme);
       };
 
-      const setTheme = function (theme: string) {
-        if (
-          theme === "auto" &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches
-        ) {
-          document.documentElement.setAttribute("data-bs-theme", "dark");
-        } else {
-          document.documentElement.setAttribute("data-bs-theme", theme);
-        }
-      };
+      setTheme(storedTheme ?? (prefersDark() ? "dark" : "light"));
 
-      setTheme(getPreferredTheme());
-
-      window
-        .matchMedia("(prefers-color-scheme: dark)")
-        .addEventListener("change", () => {
-          if (storedTheme !== "light" && storedTheme !== "dark") {
-            setTheme(getPreferredTheme());
-          }
-        });
+      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+        const stored = localStorage.getItem("theme");
+        if (stored !== "light" && stored !== "dark") setTheme("auto");
+      });
 
       window.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll("[data-bs-theme-value]").forEach((toggle) => {
-          toggle.addEventListener("click", () => {
-            const theme = toggle.getAttribute("data-bs-theme-value");
-            if (theme) {
-              localStorage.setItem("theme", theme);
-              setTheme(theme);
-            }
+        document.querySelectorAll("[data-theme-value]").forEach((el) => {
+          el.addEventListener("click", () => {
+            const theme = el.getAttribute("data-theme-value");
+            if (theme) { localStorage.setItem("theme", theme); setTheme(theme); }
           });
         });
+
+        // Hamburger toggle
+        const btn = document.getElementById("nav-toggle");
+        const nav = document.getElementById("nav-body");
+        if (btn && nav) {
+          btn.addEventListener("click", () => {
+            const open = nav.classList.toggle("hidden");
+            btn.setAttribute("aria-expanded", String(!open));
+          });
+          // Close drawer when resizing to desktop
+          window.matchMedia("(min-width: 640px)").addEventListener("change", (e) => {
+            if (e.matches) nav.classList.add("hidden");
+          });
+        }
       });
     })();
   </script>

@@ -77,61 +77,120 @@ const [latest, ...older] = feedFmtd;
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="stylesheet" href="https://assets.losno.co/fonts/inter/stylesheet.css" />
+    <link
+      rel="stylesheet"
+      href="https://assets.losno.co/fonts/inter/stylesheet.css"
+    />
   </head>
   <body>
-    <header class="sticky top-0 z-50 bg-nav-bg backdrop-blur-sm border-b border-border">
+    <header
+      class="sticky top-0 z-50 bg-nav-bg backdrop-blur-sm border-b border-border"
+    >
       <div class="max-w-content mx-auto px-4 py-2 flex items-center">
-
         <a class="nav-brand" href="/">
           <img src="/favicon-32x32.png" alt="Cog" width="24" height="24" />
           Cog
         </a>
 
         <!-- Hamburger button — mobile only -->
-        <button type="button" id="nav-toggle"
+        <button
+          type="button"
+          id="nav-toggle"
           class="sm:hidden ml-auto p-1 text-muted hover:text-text cursor-pointer"
-          aria-label="Menu" aria-expanded="false" aria-controls="nav-body">
+          aria-label="Menu"
+          aria-expanded="false"
+          aria-controls="nav-body"
+        >
           <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-            <rect y="3"  width="20" height="2" rx="1"/>
-            <rect y="9"  width="20" height="2" rx="1"/>
-            <rect y="15" width="20" height="2" rx="1"/>
+            <rect y="3" width="20" height="2" rx="1"></rect>
+            <rect y="9" width="20" height="2" rx="1"></rect>
+            <rect y="15" width="20" height="2" rx="1"></rect>
           </svg>
         </button>
 
         <!-- Nav body — always visible on desktop, toggled on mobile -->
-        <div id="nav-body"
+        <div
+          id="nav-body"
           class="hidden sm:flex flex-col sm:flex-row sm:items-center gap-3
             absolute inset-x-0 top-full sm:static
             bg-nav-bg sm:bg-transparent backdrop-blur-sm sm:[backdrop-filter:none]
-            border-b border-border sm:border-0 p-4 sm:p-0 sm:ml-auto z-40">
-
+            border-b border-border sm:border-0 p-4 sm:p-0 sm:ml-auto z-40"
+        >
           <a class="nav-link" href="#features">Features</a>
-          <span class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0" aria-hidden="true"></span>
+          <span
+            class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0"
+            aria-hidden="true"></span>
           <a class="nav-link" href="#formats">Formats</a>
-          <span class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0" aria-hidden="true"></span>
+          <span
+            class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0"
+            aria-hidden="true"></span>
           <a class="nav-link" href="#older">Versions</a>
-          <span class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0" aria-hidden="true"></span>
-          <a class="nav-link" href="https://github.com/losnoco/cog" target="_blank">GitHub</a>
-          <span class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0" aria-hidden="true"></span>
-          <a class="nav-link" href="https://discord.gg/4A6mrhtfAz" target="_blank">Discord</a>
-          <span class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0" aria-hidden="true"></span>
+          <span
+            class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0"
+            aria-hidden="true"></span>
+          <a
+            class="nav-link"
+            href="https://github.com/losnoco/cog"
+            target="_blank">GitHub</a
+          >
+          <span
+            class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0"
+            aria-hidden="true"></span>
+          <a
+            class="nav-link"
+            href="https://discord.gg/4A6mrhtfAz"
+            target="_blank">Discord</a
+          >
+          <span
+            class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0"
+            aria-hidden="true"></span>
 
           <!-- Donate dropdown — details/summary, no JS required -->
           <details class="group/donate relative">
             <summary class="btn-donate">Donate</summary>
-            <ul class="hidden group-open/donate:block
+            <ul
+              class="hidden group-open/donate:block
               bg-bg border border-border rounded-card py-1 min-w-40 shadow-md
-              sm:absolute sm:right-0 sm:top-full sm:mt-1 sm:z-50">
-              <li><a class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline" href="https://paypal.me/kode54" target="_blank">PayPal</a></li>
-              <li><a class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline" href="https://patreon.com/kode54" target="_blank">Patreon</a></li>
-              <li><a class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline" href="https://ko-fi.com/kode54" target="_blank">Ko-fi</a></li>
-              <li><a class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline" href="https://liberapay.com/kode54" target="_blank">LiberaPay</a></li>
-              <li><a class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline" href="https://github.com/sponsors/kode54" target="_blank">GitHub Sponsors</a></li>
+              sm:absolute sm:right-0 sm:top-full sm:mt-1 sm:z-50"
+            >
+              <li>
+                <a
+                  class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline"
+                  href="https://paypal.me/kode54"
+                  target="_blank">PayPal</a
+                >
+              </li>
+              <li>
+                <a
+                  class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline"
+                  href="https://patreon.com/kode54"
+                  target="_blank">Patreon</a
+                >
+              </li>
+              <li>
+                <a
+                  class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline"
+                  href="https://ko-fi.com/kode54"
+                  target="_blank">Ko-fi</a
+                >
+              </li>
+              <li>
+                <a
+                  class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline"
+                  href="https://liberapay.com/kode54"
+                  target="_blank">LiberaPay</a
+                >
+              </li>
+              <li>
+                <a
+                  class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline"
+                  href="https://github.com/sponsors/kode54"
+                  target="_blank">GitHub Sponsors</a
+                >
+              </li>
             </ul>
           </details>
         </div>
-
       </div>
     </header>
 
@@ -140,22 +199,34 @@ const [latest, ...older] = feedFmtd;
       <div class="jumbotron flex gap-6">
         <div class="flex-1 min-w-0">
           <div class="sec-label">Audio Player for macOS</div>
-          <h2 class="hero-title">A free and open source audio player for macOS.</h2>
+          <h2 class="hero-title">
+            A free and open source audio player for macOS.
+          </h2>
           <div class="flex items-center gap-3 mb-3">
             <a class="btn btn-download btn-lg" href={latest.Enclosure.URL}>
               Download v{latest.Version}
               <span class="size-label">{latest.size}</span>
             </a>
           </div>
-          <div class="hero-meta mb-3">Published {latest.date} · Requires macOS {latest.MinimumSystemVersion}</div>
+          <div class="hero-meta mb-3">
+            Published {latest.date} · Requires macOS {
+              latest.MinimumSystemVersion
+            }
+          </div>
           <ul class="hero-notes" set:html={latest.Description} />
           <div class="mt-4">
-            <a class="btn btn-sm btn-outline-losnoco" href="#older">Older versions ↓</a>
+            <a class="btn btn-sm btn-outline-losnoco" href="#older"
+              >Older versions ↓</a
+            >
           </div>
         </div>
         <div class="shrink-0 flex items-start justify-end">
           <a href="https://apps.apple.com/us/app/cog-kode54/id1630499622">
-            <img src="/masdl.svg" alt="Download on the Mac App Store" style="height: 40px;" />
+            <img
+              src="/masdl.svg"
+              alt="Download on the Mac App Store"
+              style="height: 40px;"
+            />
           </a>
         </div>
       </div>
@@ -163,7 +234,9 @@ const [latest, ...older] = feedFmtd;
       <!-- Features -->
       <section id="features" class="py-10 border-b border-border">
         <div class="sec-label">Features</div>
-        <h2 class="text-heading font-bold tracking-heading mb-4">What Cog does</h2>
+        <h2 class="text-heading font-bold tracking-heading mb-4">
+          What Cog does
+        </h2>
         <ul class="feature-list">
           <li>Gapless playback</li>
           <li>Automatic updates</li>
@@ -175,230 +248,313 @@ const [latest, ...older] = feedFmtd;
             Playback from HTTP(S) sources, both livestreams and static files
             <ul>
               <li>Apple's HTTP Live Streaming (HLS) via FFmpeg</li>
-              <li>Live metadata from Shoutcast, Icecast, Ogg Vorbis comments, and timed ID3v2 packets</li>
+              <li>
+                Live metadata from Shoutcast, Icecast, Ogg Vorbis comments, and
+                timed ID3v2 packets
+              </li>
             </ul>
           </li>
-          <li>CUE Sheet support, including embedded CUE Sheets in several formats</li>
-          <li>Album artwork per track — embedded and external, cached per unique image. JPEG, PNG, GIF, WebP, HEIC, or AVIF.</li>
+          <li>
+            CUE Sheet support, including embedded CUE Sheets in several formats
+          </li>
+          <li>
+            Album artwork per track — embedded and external, cached per unique
+            image. JPEG, PNG, GIF, WebP, HEIC, or AVIF.
+          </li>
           <li>Graphic equalizer</li>
           <li>Spectrum visualization in the toolbar</li>
           <li>
             HRTF for binaural sound
             <ul>
-              <li>Head tracking with AirPods and compatible headphones (macOS Monterey+)</li>
+              <li>
+                Head tracking with AirPods and compatible headphones (macOS
+                Monterey+)
+              </li>
             </ul>
           </li>
-          <li>Speed control and pitch shifting via the <a href="https://breakfastquay.com/rubberband/">Rubber Band library</a></li>
+          <li>
+            Speed control and pitch shifting with either the <a
+              href="https://breakfastquay.com/rubberband/">Rubber Band</a
+            > or the <a href="https://signalsmith-audio.co.uk/code/stretch/"
+              >SignalSmith Stretch</a
+            > libraries. 
+          </li>
         </ul>
-      </section>
 
-      <!-- Formats -->
-      <section id="formats" class="py-10 border-b border-border">
-        <div class="sec-label">Supported Formats</div>
-        <h2 class="text-heading font-bold tracking-heading mb-4">Plays almost anything</h2>
-        <div class="formats-grid">
-          <div class="formats-col">
-            <ul>
-              <li>MP3 (including free format, up to 640kbps; via <a href="https://github.com/lieff/minimp3">minimp3</a>)</li>
-              <li>WAV</li>
-              <li>MPEG-4 container, including chapter support</li>
-              <li>Matroska container, including chapter support</li>
-              <li>
-                AAC
-                <ul>
-                  <li>LC-AAC</li>
-                  <li>HE-AAC</li>
-                  <li>HE-AACv2</li>
-                  <li>xHE-AAC (USAC)</li>
-                </ul>
-              </li>
-              <li>Apple Lossless (ALAC)</li>
-              <li>FLAC (including OggFLAC)</li>
-              <li>Ogg Opus</li>
-              <li>Ogg Vorbis</li>
-              <li>AC3</li>
-              <li>Windows Media Audio</li>
-              <li>DTS</li>
-              <li>TrueHD</li>
-              <li>HDCD</li>
-              <li>TTA True Audio</li>
-              <li>TAK (Tom's Lossless Audio Kompressor)</li>
-              <li>Monkey's Audio (APE)</li>
-              <li>APL (APE Linking File)</li>
-              <li>TwinVQ</li>
-              <li>RealAudio</li>
-              <li>ATRAC3</li>
-              <li>Musepack</li>
-              <li>WavPack, including DSD support</li>
-              <li>Interchange File Format (IFF) including DSDIFF</li>
-              <li>DSD Stream File (DFF)</li>
-              <li>Wideband Single-bit Data (WSD)</li>
-            </ul>
-          </div>
-          <div class="formats-col">
-            <ul>
-              <li>
-                MIDI
-                <ul>
-                  <li>SoundFont support via <a href="http://www.un4seen.com/bass.html">BASSMIDI</a></li>
-                  <li>FM synthesis via <a href="https://nukeykt.retrohost.net/">Nuked OPL3</a></li>
-                  <li>Sound Canvas emulation via <a href="https://github.com/nukeykt/Nuked-SC55">Nuked SC55</a></li>
-                  <li>Audio Unit synthesizer support, including Apple's DLSMusicDevice</li>
-                </ul>
-              </li>
-              <li>Shorten</li>
-              <li>
-                Tracker music
-                <ul>
-                  <li><a href="https://lib.openmpt.org/libopenmpt/">libopenmpt</a> (<a href="https://openmpt.org/features#modules">full list of supported formats</a>)</li>
-                  <li>AHX/HVL (Hively Tracker)</li>
-                  <li>Syntrax/Jaytrax</li>
-                </ul>
-              </li>
-              <li>SID</li>
-              <li>
-                Game music
-                <ul>
-                  <li>GBS (Game Boy)</li>
-                  <li>NSF (Nintendo)</li>
-                  <li>SPC and SNSF (Super Nintendo)</li>
-                  <li>VGM (Master System, Genesis/Mega Drive, Game Gear, etc)</li>
-                  <li>VGZ (compressed variant of the above)</li>
-                  <li>PSF (PlayStation)</li>
-                  <li>SSF (Saturn)</li>
-                  <li>DSF (Dreamcast)</li>
-                  <li>QSF (Q-Sound)</li>
-                  <li>USF (Nintendo 64)</li>
-                  <li>NCSF and 2SF (Nintendo DS)</li>
-                  <li>Organya (Cave Story)</li>
-                  <li>Streamed music via <a href="https://vgmstream.org">vgmstream</a></li>
-                </ul>
-              </li>
-              <li>
-                Archive files
-                <ul>
-                  <li>ZIP</li>
-                  <li>RAR</li>
-                  <li>GZip</li>
-                  <li>7Z</li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- Older Versions -->
-      <section id="older" class="py-10 border-b border-border">
-        <div class="sec-label">Archive</div>
-        <h2 class="text-heading font-bold tracking-heading mb-4">Older versions</h2>
-        {
-          older.map((item: CogFeedFmtd) => (
-            <div class="version-entry" id={"v" + item.Version}>
-              <div class="flex items-baseline flex-wrap gap-2 mb-2">
-                <span class="version-num">v{item.Version}</span>
-                <span class="version-date">{item.date}</span>
-                <a class="btn btn-sm btn-outline-losnoco ml-auto" href={item.Enclosure.URL}>
-                  Download <span class="size-label">{item.size}</span>
-                </a>
-              </div>
-              <ul class="version-notes" set:html={item.Description} />
+        <!-- Formats -->
+        <section id="formats" class="py-10 border-b border-border">
+          <div class="sec-label">Supported Formats</div>
+          <h2 class="text-heading font-bold tracking-heading mb-4">
+            Plays almost anything
+          </h2>
+          <div class="formats-grid">
+            <div class="formats-col">
+              <ul>
+                <li>
+                  MP3 (including free format, up to 640kbps; via <a
+                    href="https://github.com/lieff/minimp3">minimp3</a
+                  >)
+                </li>
+                <li>WAV</li>
+                <li>MPEG-4 container, including chapter support</li>
+                <li>Matroska container, including chapter support</li>
+                <li>
+                  AAC
+                  <ul>
+                    <li>LC-AAC</li>
+                    <li>HE-AAC</li>
+                    <li>HE-AACv2</li>
+                    <li>xHE-AAC (USAC)</li>
+                  </ul>
+                </li>
+                <li>Apple Lossless (ALAC)</li>
+                <li>FLAC (including OggFLAC)</li>
+                <li>Ogg Opus</li>
+                <li>Ogg Vorbis</li>
+                <li>AC3</li>
+                <li>Windows Media Audio</li>
+                <li>DTS</li>
+                <li>TrueHD</li>
+                <li>HDCD</li>
+                <li>TTA True Audio</li>
+                <li>TAK (Tom's Lossless Audio Kompressor)</li>
+                <li>Monkey's Audio (APE)</li>
+                <li>APL (APE Linking File)</li>
+                <li>TwinVQ</li>
+                <li>RealAudio</li>
+                <li>ATRAC3</li>
+                <li>Musepack</li>
+                <li>WavPack, including DSD support</li>
+                <li>Interchange File Format (IFF) including DSDIFF</li>
+                <li>DSD Stream File (DFF)</li>
+                <li>Wideband Single-bit Data (WSD)</li>
+              </ul>
             </div>
-          ))
-        }
-      </section>
+            <div class="formats-col">
+              <ul>
+                <li>
+                  MIDI
+                  <ul>
+                    <li>
+                      SoundFont support via <a
+                        href="http://www.un4seen.com/bass.html">BASSMIDI</a
+                      >
+                    </li>
+                    <li>
+                      FM synthesis via <a href="https://nukeykt.retrohost.net/"
+                        >Nuked OPL3</a
+                      >
+                    </li>
+                    <li>
+                      Sound Canvas emulation via <a
+                        href="https://github.com/nukeykt/Nuked-SC55"
+                        >Nuked SC55</a
+                      >
+                    </li>
+                    <li>
+                      Audio Unit synthesizer support, including Apple's
+                      DLSMusicDevice
+                    </li>
+                  </ul>
+                </li>
+                <li>Shorten</li>
+                <li>
+                  Tracker music
+                  <ul>
+                    <li>
+                      <a href="https://lib.openmpt.org/libopenmpt/"
+                        >libopenmpt</a
+                      > (<a href="https://openmpt.org/features#modules"
+                        >full list of supported formats</a
+                      >)
+                    </li>
+                    <li>AHX/HVL (Hively Tracker)</li>
+                    <li>Syntrax/Jaytrax</li>
+                  </ul>
+                </li>
+                <li>SID</li>
+                <li>
+                  Game music
+                  <ul>
+                    <li>GBS (Game Boy)</li>
+                    <li>NSF (Nintendo)</li>
+                    <li>SPC and SNSF (Super Nintendo)</li>
+                    <li>
+                      VGM (Master System, Genesis/Mega Drive, Game Gear, etc)
+                    </li>
+                    <li>VGZ (compressed variant of the above)</li>
+                    <li>PSF (PlayStation)</li>
+                    <li>SSF (Saturn)</li>
+                    <li>DSF (Dreamcast)</li>
+                    <li>QSF (Q-Sound)</li>
+                    <li>USF (Nintendo 64)</li>
+                    <li>NCSF and 2SF (Nintendo DS)</li>
+                    <li>Organya (Cave Story)</li>
+                    <li>
+                      Streamed music via <a href="https://vgmstream.org"
+                        >vgmstream</a
+                      >
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  Archive files
+                  <ul>
+                    <li>ZIP</li>
+                    <li>RAR</li>
+                    <li>GZip</li>
+                    <li>7Z</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
 
-      <!-- Legacy -->
-      <section id="oldest" class="py-10 border-b border-border">
-        <div class="sec-label">Legacy</div>
-        <h2 class="text-heading font-bold tracking-heading mb-4">Very old builds</h2>
-        <div class="legacy-grid">
-          <a class="legacy-card" href="https://cogcdn.cog.losno.co/Cog-3b628c398.zip">
-            <div class="legacy-ver">Version 1148</div>
-            <div class="legacy-os">Mountain Lion</div>
-          </a>
-          <a class="legacy-card" href="https://cogcdn.cog.losno.co/Cog-ff44bc4d.zip">
-            <div class="legacy-ver">Version 2405</div>
-            <div class="legacy-os">Sierra</div>
-          </a>
-          <a class="legacy-card" href="https://cogcdn.cog.losno.co/Cog-e0a358efb.zip">
-            <div class="legacy-ver">Version 3349</div>
-            <div class="legacy-os">High Sierra</div>
-          </a>
-          <a class="legacy-card" href="https://cogcdn.cog.losno.co/Cog-cbf7f41e2.zip">
-            <div class="legacy-ver">Version 3405</div>
-            <div class="legacy-os">Mojave</div>
-          </a>
-        </div>
-      </section>
+        <!-- Older Versions -->
+        <section id="older" class="py-10 border-b border-border">
+          <div class="sec-label">Archive</div>
+          <h2 class="text-heading font-bold tracking-heading mb-4">
+            Older versions
+          </h2>
+          {
+            older.map((item: CogFeedFmtd) => (
+              <div class="version-entry" id={"v" + item.Version}>
+                <div class="flex items-baseline flex-wrap gap-2 mb-2">
+                  <span class="version-num">v{item.Version}</span>
+                  <span class="version-date">{item.date}</span>
+                  <a
+                    class="btn btn-sm btn-outline-losnoco ml-auto"
+                    href={item.Enclosure.URL}
+                  >
+                    Download <span class="size-label">{item.size}</span>
+                  </a>
+                </div>
+                <ul class="version-notes" set:html={item.Description} />
+              </div>
+            ))
+          }
+        </section>
 
-      <!-- Footer -->
-      <footer class="site-footer">
-        <div>
-          &copy; 2021–2026 <a href="https://kode54.net">Christopher Snowhill</a>.
-          <a href="https://cogx.org/">Originally developed</a> by <a href="http://vspader.com/">Vincent Spader</a>.
-        </div>
-        <div class="flex items-center gap-3">
-          <a href="https://losno.co" class="wordmark">
-            <img
-              src="https://assets.losno.co/WordmarkForLight.svg"
-              alt="LoSnoCo"
-              style="height: 14px;"
-            />
-          </a>
-          <a href="https://astro.build">
-            <img
-              src="https://astro.badg.es/v2/built-with-astro/tiny.svg"
-              alt="Built with Astro"
-              width="120"
-              height="20"
-            />
-          </a>
-        </div>
-      </footer>
+        <!-- Legacy -->
+        <section id="oldest" class="py-10 border-b border-border">
+          <div class="sec-label">Legacy</div>
+          <h2 class="text-heading font-bold tracking-heading mb-4">
+            Very old builds
+          </h2>
+          <div class="legacy-grid">
+            <a
+              class="legacy-card"
+              href="https://cogcdn.cog.losno.co/Cog-3b628c398.zip"
+            >
+              <div class="legacy-ver">Version 1148</div>
+              <div class="legacy-os">Mountain Lion</div>
+            </a>
+            <a
+              class="legacy-card"
+              href="https://cogcdn.cog.losno.co/Cog-ff44bc4d.zip"
+            >
+              <div class="legacy-ver">Version 2405</div>
+              <div class="legacy-os">Sierra</div>
+            </a>
+            <a
+              class="legacy-card"
+              href="https://cogcdn.cog.losno.co/Cog-e0a358efb.zip"
+            >
+              <div class="legacy-ver">Version 3349</div>
+              <div class="legacy-os">High Sierra</div>
+            </a>
+            <a
+              class="legacy-card"
+              href="https://cogcdn.cog.losno.co/Cog-cbf7f41e2.zip"
+            >
+              <div class="legacy-ver">Version 3405</div>
+              <div class="legacy-os">Mojave</div>
+            </a>
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+          <div>
+            &copy; 2021–2026 <a href="https://kode54.net"
+              >Christopher Snowhill</a
+            >.
+            <a href="https://cogx.org/">Originally developed</a> by <a
+              href="http://vspader.com/">Vincent Spader</a
+            >.
+          </div>
+          <div class="flex items-center gap-3">
+            <a href="https://losno.co" class="wordmark">
+              <img
+                src="https://assets.losno.co/WordmarkForLight.svg"
+                alt="LoSnoCo"
+                style="height: 14px;"
+              />
+            </a>
+            <a href="https://astro.build">
+              <img
+                src="https://astro.badg.es/v2/built-with-astro/tiny.svg"
+                alt="Built with Astro"
+                width="120"
+                height="20"
+              />
+            </a>
+          </div>
+        </footer>
+      </section>
     </div>
-  </body>
-  <script>
-    (() => {
-      "use strict";
-      const storedTheme = localStorage.getItem("theme");
-      const prefersDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
+    <script>
+      (() => {
+        "use strict";
+        const storedTheme = localStorage.getItem("theme");
+        const prefersDark = () =>
+          window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-      const setTheme = (theme: string) => {
-        const isDark = theme === "dark" || (theme === "auto" && prefersDark());
-        document.documentElement.classList.toggle("dark", isDark);
-        document.documentElement.setAttribute("data-theme", theme);
-      };
+        const setTheme = (theme: string) => {
+          const isDark =
+            theme === "dark" || (theme === "auto" && prefersDark());
+          document.documentElement.classList.toggle("dark", isDark);
+          document.documentElement.setAttribute("data-theme", theme);
+        };
 
-      setTheme(storedTheme ?? (prefersDark() ? "dark" : "light"));
+        setTheme(storedTheme ?? (prefersDark() ? "dark" : "light"));
 
-      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
-        const stored = localStorage.getItem("theme");
-        if (stored !== "light" && stored !== "dark") setTheme("auto");
-      });
-
-      window.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll("[data-theme-value]").forEach((el) => {
-          el.addEventListener("click", () => {
-            const theme = el.getAttribute("data-theme-value");
-            if (theme) { localStorage.setItem("theme", theme); setTheme(theme); }
+        window
+          .matchMedia("(prefers-color-scheme: dark)")
+          .addEventListener("change", () => {
+            const stored = localStorage.getItem("theme");
+            if (stored !== "light" && stored !== "dark") setTheme("auto");
           });
+
+        window.addEventListener("DOMContentLoaded", () => {
+          document.querySelectorAll("[data-theme-value]").forEach((el) => {
+            el.addEventListener("click", () => {
+              const theme = el.getAttribute("data-theme-value");
+              if (theme) {
+                localStorage.setItem("theme", theme);
+                setTheme(theme);
+              }
+            });
+          });
+
+          // Hamburger toggle
+          const btn = document.getElementById("nav-toggle");
+          const nav = document.getElementById("nav-body");
+          if (btn && nav) {
+            btn.addEventListener("click", () => {
+              const open = nav.classList.toggle("hidden");
+              btn.setAttribute("aria-expanded", String(!open));
+            });
+            // Close drawer when resizing to desktop
+            window
+              .matchMedia("(min-width: 640px)")
+              .addEventListener("change", (e) => {
+                if (e.matches) nav.classList.add("hidden");
+              });
+          }
         });
-
-        // Hamburger toggle
-        const btn = document.getElementById("nav-toggle");
-        const nav = document.getElementById("nav-body");
-        if (btn && nav) {
-          btn.addEventListener("click", () => {
-            const open = nav.classList.toggle("hidden");
-            btn.setAttribute("aria-expanded", String(!open));
-          });
-          // Close drawer when resizing to desktop
-          window.matchMedia("(min-width: 640px)").addEventListener("change", (e) => {
-            if (e.matches) nav.classList.add("hidden");
-          });
-        }
-      });
-    })();
-  </script>
+      })();
+    </script>
+  </body>
 </html>

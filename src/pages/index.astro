@@ -81,6 +81,14 @@ const [latest, ...older] = feedFmtd;
       rel="stylesheet"
       href="https://assets.losno.co/fonts/inter/stylesheet.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://assets.losno.co/fonts/IosevkaLoSnoCoNoLig/IosevkaLoSnoCoNoLig.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://assets.losno.co/fonts/IosevkaLoSnoCoNoLigQp/IosevkaLoSnoCoNoLigQp.css"
+    />
   </head>
   <body>
     <header
@@ -197,7 +205,7 @@ const [latest, ...older] = feedFmtd;
     <div class="max-w-content mx-auto px-4 py-6">
       <!-- Hero -->
       <div class="jumbotron flex gap-6">
-        <div class="flex-1 min-w-0">
+        <div class="flex-1 min-w-0 enter-stagger">
           <div class="sec-label">Audio Player for macOS</div>
           <h2 class="hero-title">
             A free and open source audio player for macOS.
@@ -232,12 +240,12 @@ const [latest, ...older] = feedFmtd;
       </div>
 
       <!-- Features -->
-      <section id="features" class="py-10 border-b border-border">
+      <section id="features" class="py-10 border-b border-border scroll-reveal-group">
         <div class="sec-label">Features</div>
         <h2 class="text-heading font-bold tracking-heading mb-4">
           What Cog does
         </h2>
-        <ul class="feature-list">
+        <ul class="feature-list scroll-reveal-group">
           <li>Gapless playback</li>
           <li>Automatic updates</li>
           <li>Global hotkeys</li>
@@ -283,14 +291,14 @@ const [latest, ...older] = feedFmtd;
         </ul>
 
         <!-- Formats -->
-        <section id="formats" class="py-10 border-b border-border">
+        <section id="formats" class="py-10 border-b border-border scroll-reveal-group">
           <div class="sec-label">Supported Formats</div>
           <h2 class="text-heading font-bold tracking-heading mb-4">
             Plays almost anything
           </h2>
-          <div class="formats-grid">
-            <div class="formats-col">
-              <ul>
+          <div class="formats-grid scroll-reveal-group">
+            <div class="formats-col scroll-reveal-group">
+              <ul class="scroll-reveal-group">
                 <li>
                   MP3 (including free format, up to 640kbps; via <a
                     href="https://github.com/lieff/minimp3">minimp3</a
@@ -331,8 +339,8 @@ const [latest, ...older] = feedFmtd;
                 <li>Wideband Single-bit Data (WSD)</li>
               </ul>
             </div>
-            <div class="formats-col">
-              <ul>
+            <div class="formats-col scroll-reveal-group">
+              <ul class="scroll-reveal-group">
                 <li>
                   MIDI
                   <ul>
@@ -417,7 +425,7 @@ const [latest, ...older] = feedFmtd;
         </section>
 
         <!-- Older Versions -->
-        <section id="older" class="py-10 border-b border-border">
+        <section id="older" class="py-10 border-b border-border scroll-reveal-group">
           <div class="sec-label">Archive</div>
           <h2 class="text-heading font-bold tracking-heading mb-4">
             Older versions
@@ -442,7 +450,7 @@ const [latest, ...older] = feedFmtd;
         </section>
 
         <!-- Legacy -->
-        <section id="oldest" class="py-10 border-b border-border">
+        <section id="oldest" class="py-10 border-b border-border scroll-reveal-group">
           <div class="sec-label">Legacy</div>
           <h2 class="text-heading font-bold tracking-heading mb-4">
             Very old builds
@@ -557,6 +565,33 @@ const [latest, ...older] = feedFmtd;
               .addEventListener("change", (e) => {
                 if (e.matches) nav.classList.add("hidden");
               });
+          }
+
+          // Scroll-driven reveal — IntersectionObserver-based so each item
+          // settles to its final state the moment it crosses into view, with
+          // no "stuck mid-animation" issue for elements pinned at page bottom.
+          const reveals = document.querySelectorAll<HTMLElement>(
+            ".scroll-reveal, .scroll-reveal-group > *:not(.scroll-reveal-group):not(.site-footer)",
+          );
+          if (
+            "IntersectionObserver" in window &&
+            !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ) {
+            const io = new IntersectionObserver(
+              (entries) => {
+                for (const entry of entries) {
+                  if (entry.isIntersecting) {
+                    entry.target.classList.add("is-revealed");
+                    io.unobserve(entry.target);
+                  }
+                }
+              },
+              { rootMargin: "0px 0px -8% 0px", threshold: 0 },
+            );
+            reveals.forEach((el) => io.observe(el));
+          } else {
+            // Reduced motion or no IO support — show everything immediately.
+            reveals.forEach((el) => el.classList.add("is-revealed"));
           }
         });
       })();

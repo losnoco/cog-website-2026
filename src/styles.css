@@ -1,35 +1,48 @@
 @import "tailwindcss";
 
+/* LoSnoCo brand fonts (Inter + Iosevka NoLig + NoLig QP) are loaded via
+   <link rel="stylesheet"> in the page head so they fetch in parallel with the
+   bundle. Self-hosted on assets.losno.co — never substitute Google Fonts. */
+
 /* ── Theme: Static brand tokens ──────────────────────── */
 @theme {
   --color-*: initial;
 
-  /* Reserved */
+  /* Motion — short, functional. Composed from these tokens, not ad-hoc ms values. */
+  --dur-fast:    100ms;   /* focus rings, tiny state flips */
+  --dur-quick:   160ms;   /* buttons, links, tag hovers */
+  --dur-medium:  240ms;   /* card hover, popover fade */
+  --dur-slow:    420ms;   /* page-level entrances */
+
+  --ease-out:    cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0.1, 0.2, 1);
+
+  /* Reserved — logo only */
   --color-white: #FFFFFF;
   --color-black: #000000;
 
-  /* Brand (always static) */
+  /* Brand */
   --color-orange:     #F25E0D;
   --color-teal:       #0DF2C9;
   --color-teal-light: #00967F;
   --color-purple:     #7B41B9;
-  --color-chris:      #2a9;
+  --color-chris:      #22AA99;
 
   /* Typography scale */
-  --text-display:              2.8125rem;
-  --text-display--line-height: 1;
-  --text-heading:              1.625rem;
-  --text-heading--line-height: 1.25;
-  --text-subheading:           1.0625rem;
+  --text-display:                 2.8125rem;
+  --text-display--line-height:    1;
+  --text-heading:                 1.625rem;
+  --text-heading--line-height:    1.25;
+  --text-subheading:              1.0625rem;
   --text-subheading--line-height: 1.4;
-  --text-label:                0.6875rem;
-  --text-label--line-height:   1.4;
-  --text-body:                 0.9375rem;
-  --text-body--line-height:    1.7;
-  --text-technical:            0.8375rem;
-  --text-technical--line-height: 1.6;
-  --text-caption:              0.6875rem;
-  --text-caption--line-height: 1.5;
+  --text-label:                   0.6875rem;
+  --text-label--line-height:      1.4;
+  --text-body:                    0.9375rem;
+  --text-body--line-height:       1.7;
+  --text-technical:               0.8375rem;
+  --text-technical--line-height:  1.6;
+  --text-caption:                 0.6875rem;
+  --text-caption--line-height:    1.5;
 
   /* Letter spacing */
   --tracking-display:    -0.03em;
@@ -41,48 +54,62 @@
   /* Radius */
   --radius-container: 10px;
   --radius-card:       8px;
+  --radius-btn:        6px;
   --radius-note:       6px;
   --radius-code:       3px;
+  --radius-tag:       99px;
 
   /* Content width */
   --container-content: 1100px;
 }
 
 /* ── Theme-switchable surface tokens ──────────────────── */
-/* Raw CSS vars change on .dark; @theme inline maps them into Tailwind */
-
 :root {
-  --bg:         #F4F3F0;
-  --surface:    #ECEAE5;
-  --border:     #D8D5CE;
-  --muted:      #888880;
-  --text:       #1A1917;
-  --header-bg:  rgb(244 243 240 / 0.92);
+  --bg:             #F4F3F0;
+  --surface:        #ECEAE5;
+  --surface-2:      #E4E2DC;
+  --surface-3:      #D8D5CE;
+  --border:         #D8D5CE;
+  --border-strong:  #B8B5AE;
+  --muted:          #888880;
+  --muted-2:        #ADABA5;
+  --text:           #1A1917;
+  --header-bg:      rgb(244 243 240 / 0.92);
 }
 
+/* Cool teal-tinted near-black (LoSnoCo dark surfaces) */
 .dark {
-  --bg:         #1A1917;
-  --surface:    #242220;
-  --border:     #3A3835;
-  --muted:      #888880;
-  --text:       #E8E6E1;
-  --header-bg:  rgb(26 25 23 / 0.92);
+  --bg:             #111C1A;
+  --surface:        #182926;
+  --surface-2:      #1E332F;
+  --surface-3:      #243D38;
+  --border:         #243D38;
+  --border-strong:  #2F524B;
+  --muted:          #7A9E98;
+  --muted-2:        #567873;
+  --text:           #E5EFED;
+  --header-bg:      rgb(17 28 26 / 0.92);
 }
 
 @theme inline {
-  --font-sans:       'Inter LoSnoCo', ui-sans-serif, system-ui, sans-serif;
-  --font-mono:       'Iosevka LoSnoCo NoLig Web', ui-monospace, monospace;
+  --font-sans:    'Inter LoSnoCo', ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    'Iosevka LoSnoCo NoLig Web', ui-monospace, monospace;
+  --font-mono-qp: 'Iosevka LoSnoCo NoLig QP Web', ui-monospace, monospace;
 
-  --color-bg:      var(--bg);
-  --color-surface: var(--surface);
-  --color-border:  var(--border);
-  --color-muted:   var(--muted);
-  --color-text:    var(--text);
-  --color-nav-bg:  var(--header-bg);
+  --color-bg:            var(--bg);
+  --color-surface:       var(--surface);
+  --color-surface-2:     var(--surface-2);
+  --color-surface-3:     var(--surface-3);
+  --color-border:        var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-muted:         var(--muted);
+  --color-muted-2:       var(--muted-2);
+  --color-text:          var(--text);
+  --color-nav-bg:        var(--header-bg);
 
   /* Darkened orange variants for active/focus states */
-  --color-orange-active: color-mix(in srgb, #F25E0D 88%, black);
-  --color-orange-focus:  color-mix(in srgb, #F25E0D 82%, black);
+  --color-orange-hover:  color-mix(in srgb, #F25E0D 88%, black);
+  --color-orange-active: color-mix(in srgb, #F25E0D 78%, black);
 }
 
 @layer base {
@@ -92,17 +119,35 @@
     font-family: var(--font-sans);
     font-size: 15px;
     line-height: 1.6;
+    scroll-behavior: smooth;
+    scroll-padding-top: 4rem;  /* clears the sticky nav so anchor targets aren't hidden under it */
   }
 
-  a { color: var(--color-teal-light); }
+  a {
+    color: var(--color-teal-light);
+    transition: color var(--dur-quick) var(--ease-out),
+                text-decoration-color var(--dur-quick) var(--ease-out);
+  }
   .dark a { color: var(--color-teal); }
 
+  :focus-visible {
+    outline: 2px solid var(--color-teal-light);
+    outline-offset: 2px;
+    transition: outline-color var(--dur-fast) var(--ease-out);
+  }
 }
 
 @layer components {
-  /* Section label */
+  /* Section label — uppercase orange, the canonical LoSnoCo eyebrow */
   .sec-label {
     @apply text-label font-bold tracking-label uppercase text-orange mb-3 block;
+  }
+
+  /* Technical type — Iosevka NoLig QP, tabular numerals.
+     Use for hostnames, dates, version numbers, sizes — anything machine-readable. */
+  .technical, .hostname {
+    font-family: var(--font-mono-qp);
+    font-variant-numeric: tabular-nums;
   }
 
   /* Nav brand */
@@ -117,42 +162,42 @@
     @apply text-label font-semibold uppercase no-underline text-muted
            hover:text-text transition-colors;
     letter-spacing: 0.1em;
-    transition-duration: 120ms;
+    transition-duration: 160ms;
   }
 
   /* Buttons — shared base */
   .btn {
-    @apply inline-flex items-center gap-2 font-semibold rounded-card
-           cursor-pointer border-2 border-transparent transition-colors no-underline;
-    transition-duration: 120ms;
+    @apply inline-flex items-center gap-2 font-semibold rounded-btn
+           cursor-pointer border border-transparent transition-colors no-underline;
+    transition-duration: 160ms;
   }
   .btn-sm { @apply text-[0.82rem] px-3 py-1.5; }
   .btn-lg { @apply text-body px-5 py-2.5; }
 
-  /* Download button: dark bg → orange on hover */
+  /* Primary orange button — the most important action on a view.
+     LoSnoCo rule: at most one per view. Used here for the latest-build download. */
   .btn-download {
-    @apply bg-text text-bg
-           hover:bg-orange hover:text-white hover:border-transparent
-           active:bg-orange-active active:text-white
-           focus-visible:bg-orange focus-visible:text-white focus-visible:border-orange-focus;
+    @apply bg-orange text-white border-orange
+           hover:bg-orange-hover hover:border-orange-hover
+           active:bg-orange-active active:border-orange-active;
   }
 
-  /* Outline button: border → orange on hover */
+  /* Secondary button — neutral surface, no orange.
+     Used for "older versions" and per-version download links. */
   .btn-outline-losnoco {
     @apply bg-transparent text-text border-border
-           hover:bg-orange hover:text-white hover:border-transparent
-           active:bg-orange-active active:text-white
-           focus-visible:bg-orange focus-visible:text-white focus-visible:border-orange-focus;
+           hover:bg-surface hover:border-border-strong
+           active:bg-surface-2;
   }
 
-  /* Donate button (also acts as <summary>) */
+  /* Donate disclosure — neutral label-style, no orange (orange belongs to download). */
   .btn-donate {
-    @apply text-label font-semibold uppercase text-orange
-           border border-orange bg-transparent rounded-card px-3 py-1.5
-           cursor-pointer list-none
-           hover:bg-orange hover:text-white
-           focus-visible:bg-orange focus-visible:text-white;
+    @apply text-label font-semibold uppercase text-muted
+           border border-border bg-transparent rounded-btn px-3 py-1.5
+           cursor-pointer list-none transition-colors
+           hover:bg-surface hover:text-text hover:border-border-strong;
     letter-spacing: 0.1em;
+    transition-duration: 160ms;
   }
 
   /* Feature list */
@@ -171,7 +216,7 @@
     @apply text-technical text-muted py-0.5;
   }
 
-  /* Formats grid */
+  /* Formats grid — hairline-separator pattern (1px gap on bordered bg) */
   .formats-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -190,8 +235,17 @@
   .version-entry {
     @apply py-6 border-b border-border last:border-b-0;
   }
-  .version-num  { @apply text-body font-bold; }
-  .version-date { @apply text-technical text-muted; font-variant-numeric: tabular-nums; }
+  .version-num {
+    @apply text-body font-bold;
+    font-family: var(--font-mono-qp);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .version-date {
+    @apply text-technical text-muted;
+    font-family: var(--font-mono-qp);
+    font-variant-numeric: tabular-nums;
+  }
   .version-notes {
     @apply text-technical text-muted mt-2;
     line-height: 1.65;
@@ -207,10 +261,14 @@
     @apply bg-border border border-border rounded-container overflow-hidden;
   }
   .legacy-card {
-    @apply bg-surface p-5 no-underline text-text hover:bg-bg transition-colors;
-    transition-duration: 120ms;
+    @apply bg-surface p-5 no-underline text-text hover:bg-surface-2 transition-colors;
+    transition-duration: 160ms;
   }
-  .legacy-ver { @apply text-[0.85rem] font-semibold; }
+  .legacy-ver {
+    @apply text-[0.85rem] font-semibold;
+    font-family: var(--font-mono-qp);
+    font-variant-numeric: tabular-nums;
+  }
   .legacy-os  { @apply text-[0.72rem] text-muted; letter-spacing: 0.05em; }
 
   /* Jumbotron / hero card */
@@ -220,23 +278,177 @@
   .hero-title {
     @apply font-extrabold tracking-display pb-3;
     font-size: 2rem;
-    line-height: 1.2;
+    line-height: 1.15;
   }
-  .hero-meta  { @apply text-technical text-muted; }
+  .hero-meta {
+    @apply text-technical text-muted;
+    font-family: var(--font-mono-qp);
+    font-variant-numeric: tabular-nums;
+  }
   .hero-notes { @apply text-body; line-height: 1.7; }
-  .size-label { @apply font-normal opacity-70; }
+  .size-label {
+    @apply font-normal opacity-70;
+    font-family: var(--font-mono-qp);
+    font-variant-numeric: tabular-nums;
+  }
 
-  /* Site footer */
+  /* Site footer — sticky to viewport bottom (mirrors the top nav).
+     Full-bleed background via the 100vw trick so the translucent backdrop
+     extends edge-to-edge even though the markup is inside max-w-content.
+     Asymmetric padding keeps the inner row aligned to the same content rail. */
   .site-footer {
-    @apply text-[0.78rem] text-muted pt-6 flex items-center justify-between flex-wrap gap-3;
+    @apply text-[0.78rem] text-muted flex items-center justify-between flex-wrap gap-3
+           sticky bottom-0 z-40 bg-nav-bg backdrop-blur-sm border-t border-border;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    padding-block: 0.625rem;
+    padding-inline: max(1rem, calc(50vw - var(--container-content) / 2 + 1rem));
   }
   .site-footer a          { @apply text-muted hover:text-text no-underline; }
   .site-footer .wordmark  { @apply text-text hover:text-text; }
-
 }
 
 @media (max-width: 639px) {
   .formats-grid  { grid-template-columns: 1fr; }
   .legacy-grid   { grid-template-columns: 1fr; }
   .hero-title    { font-size: 1.5rem; }
+}
+
+
+/* ── Motion layer ─────────────────────────────────────────────────────────────
+ * Subtle, deliberate motion. Every transition is short (≤ 240ms interaction,
+ * ≤ 420ms entrance), uses --ease-out by default, and is suppressed under
+ * prefers-reduced-motion. */
+
+/* Buttons — colors, border, transform, shadow all glide on --dur-quick.
+   :active drops 1px so the press registers as tactile without scaling. */
+button, .btn, [role="button"], summary.btn-donate {
+  transition:
+    background-color var(--dur-quick) var(--ease-out),
+    border-color     var(--dur-quick) var(--ease-out),
+    color            var(--dur-quick) var(--ease-out),
+    transform        var(--dur-quick) var(--ease-out),
+    box-shadow       var(--dur-quick) var(--ease-out);
+}
+button:active, .btn:active, [role="button"]:active, summary.btn-donate:active {
+  transform: translateY(1px);
+}
+
+
+/* Entrance keyframes */
+@keyframes losnoco-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes losnoco-rise-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes losnoco-reveal-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); filter: blur(3px); }
+  to   { opacity: 1; transform: translateY(0)   scale(1);    filter: blur(0);   }
+}
+
+.enter-fade   { animation: losnoco-fade-in   var(--dur-medium) var(--ease-out) both; }
+.enter-rise   { animation: losnoco-rise-in   var(--dur-slow)   var(--ease-out) both; }
+.enter-reveal { animation: losnoco-reveal-in var(--dur-slow)   var(--ease-out) both; }
+
+/* Stagger — direct children animate in sequence at 40ms steps. */
+.enter-stagger > *              { animation: losnoco-rise-in var(--dur-slow) var(--ease-out) both; }
+.enter-stagger > :nth-child(1)  { animation-delay:   0ms; }
+.enter-stagger > :nth-child(2)  { animation-delay:  40ms; }
+.enter-stagger > :nth-child(3)  { animation-delay:  80ms; }
+.enter-stagger > :nth-child(4)  { animation-delay: 120ms; }
+.enter-stagger > :nth-child(5)  { animation-delay: 160ms; }
+.enter-stagger > :nth-child(6)  { animation-delay: 200ms; }
+.enter-stagger > :nth-child(7)  { animation-delay: 240ms; }
+.enter-stagger > :nth-child(8)  { animation-delay: 280ms; }
+.enter-stagger > :nth-child(9)  { animation-delay: 320ms; }
+.enter-stagger > :nth-child(10) { animation-delay: 360ms; }
+.enter-stagger > :nth-child(11) { animation-delay: 400ms; }
+.enter-stagger > :nth-child(12) { animation-delay: 440ms; }
+
+/* Donate dropdown — animate the panel in; the summary keeps its button look,
+   so no chevron treatment (intentional deviation from the LoSnoCo default). */
+details[open] > :not(summary) {
+  animation: losnoco-rise-in var(--dur-medium) var(--ease-out) both;
+}
+
+/* Scroll-driven reveal — JS-driven via IntersectionObserver in index.astro.
+   Each target starts hidden; the script adds `.is-revealed` the moment the
+   element first enters the viewport, and the transition below runs to its
+   final state. A nested `.scroll-reveal-group` is intentionally exempted so
+   only leaf items cascade. */
+.scroll-reveal,
+.scroll-reveal-group > *:not(.scroll-reveal-group):not(.site-footer) {
+  opacity: 0;
+  transform: translateY(24px);
+  filter: blur(4px);
+  transition:
+    opacity   var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out),
+    filter    var(--dur-slow) var(--ease-out);
+  will-change: opacity, transform, filter;
+}
+.scroll-reveal.is-revealed,
+.scroll-reveal-group > *:not(.scroll-reveal-group):not(.site-footer).is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+/* Fallback: if JS never runs (script blocked, etc.), reveal everything. */
+@media (scripting: none) {
+  .scroll-reveal,
+  .scroll-reveal-group > *:not(.scroll-reveal-group) {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* Popovers / dialogs — scale + blur + fade.
+   Used here for completeness; this page has no popover/dialog yet. */
+[popover], dialog {
+  opacity: 0;
+  transform: scale(0.94);
+  filter: blur(6px);
+  transition:
+    opacity   var(--dur-medium) var(--ease-out),
+    transform var(--dur-medium) var(--ease-out),
+    filter    var(--dur-medium) var(--ease-out),
+    overlay   var(--dur-medium) allow-discrete,
+    display   var(--dur-medium) allow-discrete;
+}
+[popover]:popover-open,
+dialog[open] {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+}
+@starting-style {
+  [popover]:popover-open,
+  dialog[open] {
+    opacity: 0;
+    transform: scale(0.94);
+    filter: blur(6px);
+  }
+}
+
+/* Reduced motion — strip everything but final state. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 1ms !important;
+  }
+  .enter-fade, .enter-rise, .enter-reveal,
+  .enter-stagger > *, .scroll-reveal,
+  .scroll-reveal-group > *:not(.scroll-reveal-group) {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
 }

@@ -309,20 +309,21 @@
   }
 
   /* Site footer — sticky to viewport bottom (mirrors the top nav).
-     Full-bleed background via the 100vw trick so the translucent backdrop
-     extends edge-to-edge even though the markup is inside max-w-content.
-     Asymmetric padding keeps the inner row aligned to the same content rail. */
+     Full-bleed background is painted, not sized, so it doesn't affect layout
+     width or trigger horizontal scrolling. */
   .site-footer {
-    @apply text-[0.78rem] text-muted flex items-center justify-between flex-wrap gap-3
-           sticky bottom-0 z-40 bg-nav-bg backdrop-blur-sm border-t border-border;
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
-    padding-block: 0.625rem;
-    padding-inline: max(1rem, calc(50vw - var(--container-content) / 2 + 1rem));
-  }
-  .site-footer a          { @apply text-muted hover:text-text no-underline; }
-  .site-footer .wordmark  { @apply text-text hover:text-text; }
-}
+     @apply text-[0.78rem] text-muted flex items-center justify-between flex-wrap gap-3
+            sticky bottom-0 z-40;
+     background: var(--header-bg);
+     backdrop-filter: blur(8px);
+     border-top: 1px solid var(--border);
+     box-shadow: 0 0 0 100vmax var(--header-bg);
+     clip-path: inset(-1px -100vmax 0);
+     padding-block: 0.625rem;
+   }
+   .site-footer a          { @apply text-muted hover:text-text no-underline; }
+   .site-footer .wordmark  { @apply text-text hover:text-text; }
+ }
 
 @media (max-width: 639px) {
   .formats-grid  { grid-template-columns: 1fr; }

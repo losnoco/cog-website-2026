@@ -1,0 +1,375 @@
+---
+import "../styles.css";
+import { fetchReleases, type Release } from "../xpcog_releases";
+
+const releases = await fetchReleases();
+const [latest, ...older] = releases;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>XPCog — Cog for Windows, macOS and Linux</title>
+    <meta
+      name="description"
+      content="XPCog is a port of Cog to Windows, macOS and Linux. Downloads for every release."
+    />
+    <meta property="og:url" content={Astro.site + "xpcog"} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XPCog" />
+    <meta
+      property="og:description"
+      content="XPCog is a port of Cog to Windows, macOS and Linux. Downloads for every release."
+    />
+    <meta property="og:image" content={Astro.site + "hero.png"} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="cog.losno.co" />
+    <meta property="twitter:url" content={Astro.site + "xpcog"} />
+    <meta name="twitter:title" content="XPCog" />
+    <meta
+      name="twitter:description"
+      content="XPCog is a port of Cog to Windows, macOS and Linux. Downloads for every release."
+    />
+    <meta name="twitter:image" content={Astro.site + "hero.png"} />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preconnect" href="https://assets.losno.co" crossorigin />
+    <link
+      rel="preload"
+      as="font"
+      type="font/ttf"
+      href="https://assets.losno.co/fonts/inter/InterVariableLoSnoCo.ttf"
+      crossorigin
+    />
+    <link
+      rel="stylesheet"
+      href="https://assets.losno.co/fonts/inter/stylesheet.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://assets.losno.co/fonts/IosevkaLoSnoCoNoLig/IosevkaLoSnoCoNoLig.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://assets.losno.co/fonts/IosevkaLoSnoCoNoLigQp/IosevkaLoSnoCoNoLigQp.css"
+    />
+  </head>
+  <body>
+    <header
+      class="sticky top-0 z-50 bg-nav-bg backdrop-blur-sm border-b border-border"
+    >
+      <div class="max-w-content mx-auto px-4 py-2 flex items-center">
+        <a class="nav-brand" href="/xpcog">
+          <img src="/favicon-32x32.png" alt="XPCog" width="24" height="24" />
+          XPCog
+        </a>
+
+        <!-- Hamburger button — mobile only -->
+        <button
+          type="button"
+          id="nav-toggle"
+          class="sm:hidden ml-auto p-1 text-muted hover:text-text cursor-pointer"
+          aria-label="Menu"
+          aria-expanded="false"
+          aria-controls="nav-body"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <rect y="3" width="20" height="2" rx="1"></rect>
+            <rect y="9" width="20" height="2" rx="1"></rect>
+            <rect y="15" width="20" height="2" rx="1"></rect>
+          </svg>
+        </button>
+
+        <!-- Nav body — always visible on desktop, toggled on mobile -->
+        <div
+          id="nav-body"
+          class="hidden sm:flex flex-col sm:flex-row sm:items-center gap-3
+            absolute inset-x-0 top-full sm:static
+            bg-nav-bg sm:bg-transparent backdrop-blur-sm sm:[backdrop-filter:none]
+            border-b border-border sm:border-0 p-4 sm:p-0 sm:ml-auto z-40"
+        >
+          <a class="nav-link" href="/">Cog for macOS</a>
+          <span
+            class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0"
+            aria-hidden="true"></span>
+          <a class="nav-link" href="#releases">Releases</a>
+          <span
+            class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0"
+            aria-hidden="true"></span>
+          <a
+            class="nav-link"
+            href="https://github.com/losnoco/XPCog"
+            target="_blank">GitHub</a
+          >
+          <span
+            class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0"
+            aria-hidden="true"></span>
+          <a
+            class="nav-link"
+            href="https://discord.gg/4A6mrhtfAz"
+            target="_blank">Discord</a
+          >
+          <span
+            class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0"
+            aria-hidden="true"></span>
+
+          <!-- Donate dropdown — details/summary, no JS required -->
+          <details class="group/donate relative">
+            <summary class="btn-donate">Donate</summary>
+            <ul
+              class="hidden group-open/donate:block
+              bg-bg border border-border rounded-card py-1 min-w-40 shadow-md
+              sm:absolute sm:right-0 sm:top-full sm:mt-1 sm:z-50"
+            >
+              <li>
+                <a
+                  class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline"
+                  href="https://paypal.me/kode54"
+                  target="_blank">PayPal</a
+                >
+              </li>
+              <li>
+                <a
+                  class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline"
+                  href="https://patreon.com/kode54"
+                  target="_blank">Patreon</a
+                >
+              </li>
+              <li>
+                <a
+                  class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline"
+                  href="https://ko-fi.com/kode54"
+                  target="_blank">Ko-fi</a
+                >
+              </li>
+              <li>
+                <a
+                  class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline"
+                  href="https://liberapay.com/kode54"
+                  target="_blank">LiberaPay</a
+                >
+              </li>
+              <li>
+                <a
+                  class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline"
+                  href="https://github.com/sponsors/kode54"
+                  target="_blank">GitHub Sponsors</a
+                >
+              </li>
+            </ul>
+          </details>
+        </div>
+      </div>
+    </header>
+
+    <div class="max-w-content mx-auto px-4 py-6">
+      <!-- Hero -->
+      <div class="jumbotron">
+        <div class="enter-stagger">
+          <div class="sec-label">Audio Player for Windows, macOS and Linux</div>
+          <h2 class="hero-title">Cog, ported off the Mac.</h2>
+          <p class="text-body mb-4">
+            XPCog is <a href="https://github.com/losnoco/XPCog">a port of Cog</a>
+            to <a href="https://www.wxwidgets.org/">wxWidgets</a> and C++20 —
+            the same decoders, the same gapless engine, the same settings keys,
+            on Windows, macOS and Linux. It is early, and every build below is
+            what CI published on the day it says.
+          </p>
+          {
+            latest ? (
+              <Fragment>
+                {/*
+                  Two orange buttons, against the LoSnoCo "one primary per view"
+                  rule, and deliberately: this is one action — download XPCog —
+                  and which button you press is a fact about your computer, not
+                  a choice between two things to do. Demoting either one would
+                  say the other is the real download.
+                */}
+                <div class="flex items-center gap-3 flex-wrap mb-3">
+                  {latest.downloads.map((asset) => (
+                    <a class="btn btn-download btn-lg" href={asset.url}>
+                      {asset.platformLabel}
+                      <span class="size-label">{asset.sizeLabel}</span>
+                    </a>
+                  ))}
+                </div>
+                <div class="hero-meta mb-3">
+                  Version {latest.version} · Published {latest.publishedLabel} ·{" "}
+                  <a href={latest.url}>Release on GitHub</a>
+                </div>
+                <div class="release-notes" set:html={latest.notesHtml} />
+                {older.length > 0 && (
+                  <div class="mt-4">
+                    <a class="btn btn-sm btn-outline-losnoco" href="#releases">
+                      Older versions ↓
+                    </a>
+                  </div>
+                )}
+              </Fragment>
+            ) : (
+              <p class="text-body">
+                No release has been published yet. Builds appear here as soon as
+                one is — until then, the source is on <a
+                  href="https://github.com/losnoco/XPCog"
+                >
+                  GitHub
+                </a>.
+              </p>
+            )
+          }
+        </div>
+      </div>
+
+      <!-- Releases -->
+      <section
+        id="releases"
+        class="py-10 border-b border-border scroll-reveal-group"
+      >
+        <div class="sec-label">Archive</div>
+        <h2 class="text-heading font-bold tracking-heading mb-4">
+          {older.length > 0 ? "Older versions" : "All releases"}
+        </h2>
+        {
+          older.length > 0 ? (
+            older.map((item: Release) => (
+              <div class="version-entry" id={"v" + item.version}>
+                <div class="flex items-baseline flex-wrap gap-2 mb-2">
+                  <span class="version-num">v{item.version}</span>
+                  <span class="version-date">{item.publishedLabel}</span>
+                  <span class="ml-auto flex items-center gap-2 flex-wrap">
+                    {item.downloads.map((asset) => (
+                      <a
+                        class="btn btn-sm btn-outline-losnoco"
+                        href={asset.url}
+                      >
+                        {asset.platformLabel}{" "}
+                        <span class="size-label">{asset.sizeLabel}</span>
+                      </a>
+                    ))}
+                  </span>
+                </div>
+                <div class="release-notes" set:html={item.notesHtml} />
+              </div>
+            ))
+          ) : (
+            <p class="text-technical text-muted">
+              {latest
+                ? "Nothing older than the build above yet."
+                : "Nothing published yet."}
+            </p>
+          )
+        }
+      </section>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div>
+          &copy; 2021–2026 <a href="https://kode54.net">Christopher Snowhill</a>.
+          <a href="https://cogx.org/">Originally developed</a> by <a
+            href="http://vspader.com/">Vincent Spader</a
+          >.
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="https://losno.co" class="wordmark">
+            <img
+              src="https://assets.losno.co/WordmarkForLight.svg"
+              alt="LoSnoCo"
+              style="height: 14px;"
+            />
+          </a>
+          <a href="https://astro.build">
+            <img
+              src="https://astro.badg.es/v2/built-with-astro/tiny.svg"
+              alt="Built with Astro"
+              width="120"
+              height="20"
+            />
+          </a>
+        </div>
+      </footer>
+    </div>
+    <script>
+      (() => {
+        "use strict";
+        const storedTheme = localStorage.getItem("theme");
+        const prefersDark = () =>
+          window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        const setTheme = (theme: string) => {
+          const isDark =
+            theme === "dark" || (theme === "auto" && prefersDark());
+          document.documentElement.classList.toggle("dark", isDark);
+          document.documentElement.setAttribute("data-theme", theme);
+        };
+
+        setTheme(storedTheme ?? (prefersDark() ? "dark" : "light"));
+
+        window
+          .matchMedia("(prefers-color-scheme: dark)")
+          .addEventListener("change", () => {
+            const stored = localStorage.getItem("theme");
+            if (stored !== "light" && stored !== "dark") setTheme("auto");
+          });
+
+        window.addEventListener("DOMContentLoaded", () => {
+          document.querySelectorAll("[data-theme-value]").forEach((el) => {
+            el.addEventListener("click", () => {
+              const theme = el.getAttribute("data-theme-value");
+              if (theme) {
+                localStorage.setItem("theme", theme);
+                setTheme(theme);
+              }
+            });
+          });
+
+          // Hamburger toggle
+          const btn = document.getElementById("nav-toggle");
+          const nav = document.getElementById("nav-body");
+          if (btn && nav) {
+            btn.addEventListener("click", () => {
+              const open = nav.classList.toggle("hidden");
+              btn.setAttribute("aria-expanded", String(!open));
+            });
+            // Close drawer when resizing to desktop
+            window
+              .matchMedia("(min-width: 640px)")
+              .addEventListener("change", (e) => {
+                if (e.matches) nav.classList.add("hidden");
+              });
+          }
+
+          // Scroll-driven reveal — see index.astro for the reasoning.
+          const reveals = document.querySelectorAll<HTMLElement>(
+            ".scroll-reveal, .scroll-reveal-group > *:not(.scroll-reveal-group):not(.site-footer)",
+          );
+          if (
+            "IntersectionObserver" in window &&
+            !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ) {
+            const io = new IntersectionObserver(
+              (entries) => {
+                for (const entry of entries) {
+                  if (entry.isIntersecting) {
+                    entry.target.classList.add("is-revealed");
+                    io.unobserve(entry.target);
+                  }
+                }
+              },
+              { rootMargin: "0px 0px -8% 0px", threshold: 0 },
+            );
+            reveals.forEach((el) => io.observe(el));
+          } else {
+            // Reduced motion or no IO support — show everything immediately.
+            reveals.forEach((el) => el.classList.add("is-revealed"));
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

@@ -269,6 +269,41 @@
   .version-notes ul { @apply list-none p-0; }
   .version-notes ul li { @apply py-0.5; }
 
+  /* Release notes — GitHub release bodies, rendered from Markdown, so unlike
+     .version-notes this has to survive whatever a release body contains:
+     headings from `gh release --generate-notes`, nested lists, inline code,
+     rules. Deliberately quiet — the download buttons are the loud part. */
+  .release-notes {
+    @apply text-technical text-muted mt-2;
+    line-height: 1.65;
+  }
+  .release-notes > :first-child { @apply mt-0; }
+  .release-notes h1,
+  .release-notes h2,
+  .release-notes h3,
+  .release-notes h4 {
+    @apply text-subheading font-semibold text-text mt-4 mb-1 tracking-subheading;
+  }
+  .release-notes p { @apply my-2; }
+  .release-notes ul { @apply list-disc my-2; padding-left: 1.15rem; }
+  .release-notes ol { @apply list-decimal my-2; padding-left: 1.35rem; }
+  .release-notes li { @apply py-0.5; }
+  .release-notes li > ul,
+  .release-notes li > ol { @apply my-0; }
+  .release-notes code {
+    @apply bg-surface-2 rounded-code px-1 py-0.5 text-[0.8rem];
+    font-family: var(--font-mono);
+  }
+  .release-notes pre {
+    @apply bg-surface-2 rounded-card p-3 my-2 overflow-x-auto text-[0.8rem];
+  }
+  .release-notes pre code { @apply bg-transparent p-0; }
+  .release-notes hr { @apply border-0 border-t border-border my-4; }
+  .release-notes blockquote {
+    @apply border-l-2 border-border pl-3 my-2 text-muted-2;
+  }
+  .release-notes img { @apply max-w-full; }
+
   /* Legacy grid */
   .legacy-grid {
     display: grid;

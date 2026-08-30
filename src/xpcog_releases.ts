@@ -2,8 +2,8 @@
  * The XPCog release list, read from GitHub at build time.
  *
  * Cog's downloads come from a Sparkle appcast. XPCog has none: its CI publishes
- * one GitHub release per version bump, with the Windows installer and the macOS
- * disk image attached, so the releases API is the feed. Because this is read at
+ * one GitHub release per version bump, with the Windows installer, the macOS
+ * disk image and the Linux tarball attached, so the releases API is the feed. Because this is read at
  * build time and not in the browser, a new XPCog release only reaches the site
  * when the site is rebuilt — which is what the Netlify build hook XPCog's
  * release job calls is for. See the README.
@@ -25,12 +25,26 @@ const VERSION_TAG = /^v(\d+\.\d+\.\d+)$/;
 
 export type Platform = "windows" | "macos" | "linux";
 
-/** Extension → platform. The installer names carry nothing else to go on. */
+/**
+ * Extension → platform. The installer names carry nothing else to go on.
+ *
+ * An asset matching none of these is dropped, silently and by design — a
+ * release can carry things that are not downloads. The cost of that is this
+ * list going stale without anything saying so, which it did: it guessed
+ * `.appimage` and `.deb` for Linux before there was a Linux build, and XPCog
+ * ships neither. It publishes `XPCog-<version>-x86_64.tar.gz`, and its CI
+ * enables CPack's `TGZ` generator alone — a .deb worth installing needs a
+ * dependency list naming the sonames of whichever distribution built it, which
+ * is a per-distribution job rather than something that repository does.
+ *
+ * So: add a suffix here when XPCog starts publishing one, not in anticipation
+ * of it. A guess that never arrives is indistinguishable from a match that
+ * broke.
+ */
 const PLATFORMS: { suffix: string; platform: Platform; label: string }[] = [
   { suffix: ".exe", platform: "windows", label: "Windows" },
   { suffix: ".dmg", platform: "macos", label: "macOS" },
-  { suffix: ".appimage", platform: "linux", label: "Linux" },
-  { suffix: ".deb", platform: "linux", label: "Linux" },
+  { suffix: ".tar.gz", platform: "linux", label: "Linux" },
 ];
 
 /** The order downloads are offered in, whichever order GitHub lists them. */

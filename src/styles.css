@@ -181,6 +181,41 @@
     transition-duration: 160ms;
   }
 
+  /* Announcement bar — the XPCog pointer above the sticky header. It sits
+     outside the header on purpose: it scrolls away with the page instead of
+     spending a strip of every screen on a link most readers follow once.
+     Orange appears on the eyebrow only; the solid-orange button on each page
+     belongs to the download. */
+  .announce {
+    @apply block border-b no-underline transition-colors;
+    background: color-mix(in srgb, var(--color-orange) 9%, var(--bg));
+    border-color: color-mix(in srgb, var(--color-orange) 28%, var(--border));
+    color: var(--text);
+    transition-duration: 160ms;
+  }
+  .announce:hover {
+    background: color-mix(in srgb, var(--color-orange) 15%, var(--bg));
+  }
+  .announce-inner {
+    @apply max-w-content mx-auto px-4 py-2
+           flex items-center gap-x-2 gap-y-1 flex-wrap;
+  }
+  .announce-tag {
+    @apply text-label font-bold tracking-label uppercase text-orange shrink-0;
+  }
+  .announce-text { @apply text-[0.82rem]; }
+  .announce-cta  { @apply text-[0.82rem] font-semibold text-muted ml-auto shrink-0; }
+  .announce:hover .announce-cta { color: var(--text); }
+
+  /* A line of prose carrying a shell command — the AUR install note. */
+  .install-note { @apply text-technical text-muted; }
+  .install-note strong { @apply font-semibold text-text; }
+  .install-note code {
+    @apply bg-surface-2 text-text rounded-code px-1.5 py-0.5;
+    font-family: var(--font-mono-qp);
+    font-size: 0.9em;
+  }
+
   /* Buttons — shared base */
   .btn {
     @apply inline-flex items-center gap-2 font-semibold rounded-btn

@@ -203,6 +203,27 @@ const [latest, ...older] = releases;
                   Version {latest.version} · Published {latest.publishedLabel} ·{" "}
                   <a href={latest.url}>Release on GitHub</a>
                 </div>
+                {/*
+                  The AUR line carries a warning because the AUR earned one in
+                  2026: orphaned packages adopted by whoever asked, then given
+                  malicious commits — the "Atomic Arch" campaign in June, and
+                  two further waves after it. Telling people to read a PKGBUILD
+                  is the only advice that survives the next wave, so it is here
+                  rather than a link to whichever incident is current.
+                */}
+                <p class="install-note mb-3">
+                  On Arch Linux, build it from the AUR instead:{" "}
+                  <a href="https://aur.archlinux.org/packages/xpcog">xpcog</a> —{" "}
+                  <code>yay -S xpcog</code>. It builds a tagged release from
+                  source, so it can trail the newest one above.{" "}
+                  <strong>Read the PKGBUILD before you build it.</strong> The AUR
+                  is user-submitted, and has repeatedly been used to{" "}
+                  <a href="https://archlinux.org/news/active-aur-malicious-packages-incident/">
+                    ship malware
+                  </a>{" "}
+                  through hijacked orphan packages — nothing on it is vetted for
+                  you, this package included.
+                </p>
                 <div class="release-notes" set:html={latest.notesHtml} />
                 {older.length > 0 && (
                   <div class="mt-4">
@@ -219,7 +240,11 @@ const [latest, ...older] = releases;
                   href="https://github.com/losnoco/XPCog"
                 >
                   GitHub
-                </a>.
+                </a>, and Arch Linux users can build it from <a
+                  href="https://aur.archlinux.org/packages/xpcog"
+                >
+                  the AUR
+                </a> — read the PKGBUILD before you do.
               </p>
             )
           }

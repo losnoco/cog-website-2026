@@ -204,6 +204,23 @@ const [latest, ...older] = releases;
                   <a href={latest.url}>Release on GitHub</a>
                 </div>
                 {/*
+                  Hand-maintained, unlike Cog's "Requires macOS" line, which
+                  comes from the appcast: a GitHub release carries no such
+                  field. The floors come from the XPCog repository — macOS 13
+                  is the deployment target in cmake/XPCogOsxDeploymentTarget.cmake,
+                  and the DMG is arm64 only; Windows declares no floor, but the
+                  hard link to C++/WinRT for media keys and the accent colour
+                  makes it 64-bit Windows 10 in practice. Bump these here when
+                  they move there.
+                */}
+                <p class="install-note mb-3">
+                  <strong>Windows</strong> 10 or later, 64-bit.{" "}
+                  <strong>macOS</strong> 13 Ventura or later, Apple silicon only
+                  — there is no Intel build.{" "}
+                  <strong>Linux</strong> x86_64, with wxGTK 3.2 from your
+                  distribution.
+                </p>
+                {/*
                   The AUR line carries a warning because the AUR earned one in
                   2026: orphaned packages adopted by whoever asked, then given
                   malicious commits — the "Atomic Arch" campaign in June, and

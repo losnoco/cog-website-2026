@@ -2,8 +2,9 @@
  * The XPCog release list, read from GitHub at build time.
  *
  * Cog's downloads come from a Sparkle appcast. XPCog has none: its CI publishes
- * one GitHub release per version bump, with the Windows installer, the macOS
- * disk image and the Linux tarball attached, so the releases API is the feed. Because this is read at
+ * one GitHub release per version bump, with the Windows installer and the Linux
+ * tarball attached (1.x releases also carry a macOS disk image, which stays
+ * listed as a legacy download; 2.0.0 dropped the macOS port), so the releases API is the feed. Because this is read at
  * build time and not in the browser, a new XPCog release only reaches the site
  * when the site is rebuilt — which is what the Netlify build hook XPCog's
  * release job calls is for. See the README.

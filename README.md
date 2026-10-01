@@ -5,7 +5,7 @@ The marketing and download site for [Cog](https://github.com/losnoco/cog), a fre
 Built with [Astro](https://astro.build) and [Tailwind CSS v4](https://tailwindcss.com), styled to the [LoSnoCo design system](https://losno.co). The release list and download links are pulled at build time from the Sparkle appcast at `cogcdn.cog.losno.co/mercury.json`.
 
 The `/xpcog` page lists the releases of [XPCog](https://github.com/losnoco/XPCog),
-the port of Cog to Windows, macOS and Linux, read at build time from that
+the port of Cog to Windows and Linux, read at build time from that
 repository's GitHub releases API (`src/xpcog_releases.ts`). Only tags shaped
 `v<major>.<minor>.<patch>` count as builds — the repository also has a release
 that mirrors two encoders for its test fixtures, and that is not a version of

@@ -13,17 +13,17 @@ const [latest, ...older] = releases;
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    <title>XPCog — Cog for Windows, macOS and Linux</title>
+    <title>XPCog — Cog for Windows and Linux</title>
     <meta
       name="description"
-      content="XPCog is a port of Cog to Windows, macOS and Linux. Downloads for every release."
+      content="XPCog is a port of Cog to Windows and Linux. Downloads for every release."
     />
     <meta property="og:url" content={Astro.site + "xpcog"} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="XPCog" />
     <meta
       property="og:description"
-      content="XPCog is a port of Cog to Windows, macOS and Linux. Downloads for every release."
+      content="XPCog is a port of Cog to Windows and Linux. Downloads for every release."
     />
     <meta property="og:image" content={Astro.site + "hero.png"} />
     <meta name="twitter:card" content="summary_large_image" />
@@ -32,7 +32,7 @@ const [latest, ...older] = releases;
     <meta name="twitter:title" content="XPCog" />
     <meta
       name="twitter:description"
-      content="XPCog is a port of Cog to Windows, macOS and Linux. Downloads for every release."
+      content="XPCog is a port of Cog to Windows and Linux. Downloads for every release."
     />
     <meta name="twitter:image" content={Astro.site + "hero.png"} />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -172,13 +172,14 @@ const [latest, ...older] = releases;
       <!-- Hero -->
       <div class="jumbotron">
         <div class="enter-stagger">
-          <div class="sec-label">Audio Player for Windows, macOS and Linux</div>
-          <h2 class="hero-title">Cog, ported off the Mac.</h2>
+          <div class="sec-label">Audio Player for Windows and Linux</div>
+          <h2 class="hero-title">Cog, for Windows and Linux.</h2>
           <p class="text-body mb-4">
             XPCog is <a href="https://github.com/losnoco/XPCog">a port of Cog</a>
-            to <a href="https://www.wxwidgets.org/">wxWidgets</a> and C++20 —
-            the same decoders, the same gapless engine, the same settings keys,
-            on Windows, macOS and Linux. It is early, and every build below is
+            in C++20 — <a href="https://www.wxwidgets.org/">wxWidgets</a> on
+            Windows, a native GNOME app in GTK 4 and libadwaita on Linux, and
+            the same decoders, the same gapless engine, the same settings keys
+            on both. It is early, and every build below is
             what CI published on the day it says.
           </p>
           {
@@ -206,19 +207,20 @@ const [latest, ...older] = releases;
                 {/*
                   Hand-maintained, unlike Cog's "Requires macOS" line, which
                   comes from the appcast: a GitHub release carries no such
-                  field. The floors come from the XPCog repository — macOS 13
-                  is the deployment target in cmake/XPCogOsxDeploymentTarget.cmake,
-                  and the DMG is arm64 only; Windows declares no floor, but the
-                  hard link to C++/WinRT for media keys and the accent colour
-                  makes it 64-bit Windows 10 in practice. Bump these here when
+                  field. The floors come from the XPCog repository — Linux needs
+                  the GTK 4.22 and libadwaita 1.9 it builds against; Windows
+                  declares no floor, but the hard link to C++/WinRT for media
+                  keys and the accent colour makes it 64-bit Windows 10 in
+                  practice. Bump these here when
                   they move there.
                 */}
                 <p class="install-note mb-3">
                   <strong>Windows</strong> 10 or later, 64-bit.{" "}
-                  <strong>macOS</strong> 13 Ventura or later, Apple silicon only
-                  — there is no Intel build.{" "}
-                  <strong>Linux</strong> x86_64, with wxGTK 3.2 from your
-                  distribution.
+                  <strong>Linux</strong> x86_64, with GTK 4.22 and libadwaita
+                  1.9 or newer from your distribution — Ubuntu 26.04, Fedora 44,
+                  Arch, or anything on GNOME 50 or later.{" "}
+                  No macOS build: on a Mac, <a href="/">Cog itself</a> is the
+                  player.
                 </p>
                 {/*
                   The AUR line carries a warning because the AUR earned one in

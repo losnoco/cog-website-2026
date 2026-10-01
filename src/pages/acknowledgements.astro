@@ -1,0 +1,346 @@
+---
+import "../styles.css";
+import { credits, type App, type Credit, type Group } from "../acknowledgements";
+
+const GROUPS: { id: Group; label: string; title: string }[] = [
+  { id: "decoders", label: "Decoders", title: "Decoders and formats" },
+  { id: "processing", label: "Processing", title: "Audio processing" },
+  { id: "interface", label: "Interface", title: "Interface" },
+  { id: "data", label: "Data", title: "Data" },
+];
+
+const APP_LABELS: Record<App, string> = { cog: "Cog", xpcog: "XPCog" };
+
+// "unknown" means neither source tree states the terms. Those are credited by
+// name and use, with no licence line, rather than a guessed one.
+const hasLicense = (c: Credit) => c.license !== "unknown";
+
+const byGroup = (group: Group): Credit[] =>
+  credits
+    .filter((c) => c.group === group)
+    .sort((a, b) =>
+      a.name.localeCompare(b.name, "en", { sensitivity: "base" }),
+    );
+
+// SPDX expressions ("LGPL-2.1-or-later", "MIT OR Apache-2.0") read as
+// identifiers and are set in mono. Anything else — "Snes9x licence
+// (non-commercial)", "Public domain" — is a sentence and is set as prose, so
+// it does not pass for an SPDX id.
+const SPDX = /^[A-Za-z0-9.+-]+(?: (?:OR|AND|WITH) [A-Za-z0-9.+-]+)*$/;
+const isSpdx = (license: string) => SPDX.test(license);
+const licenseLabel = (license: string) =>
+  isSpdx(license)
+    ? license
+    : license.charAt(0).toUpperCase() + license.slice(1);
+
+const description =
+  "The third-party libraries and data that Cog and XPCog are built on, with their licences.";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Acknowledgements — Cog and XPCog</title>
+    <meta name="description" content={description} />
+    <meta property="og:url" content={Astro.site + "acknowledgements"} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Acknowledgements — Cog and XPCog" />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={Astro.site + "hero.png"} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="cog.losno.co" />
+    <meta property="twitter:url" content={Astro.site + "acknowledgements"} />
+    <meta name="twitter:title" content="Acknowledgements — Cog and XPCog" />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={Astro.site + "hero.png"} />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preconnect" href="https://assets.losno.co" crossorigin />
+    <link
+      rel="preload"
+      as="font"
+      type="font/ttf"
+      href="https://assets.losno.co/fonts/inter/InterVariableLoSnoCo.ttf"
+      crossorigin
+    />
+    <link
+      rel="stylesheet"
+      href="https://assets.losno.co/fonts/inter/stylesheet.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://assets.losno.co/fonts/IosevkaLoSnoCoNoLig/IosevkaLoSnoCoNoLig.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://assets.losno.co/fonts/IosevkaLoSnoCoNoLigQp/IosevkaLoSnoCoNoLigQp.css"
+    />
+  </head>
+  <body>
+    <header
+      class="sticky top-0 z-50 bg-nav-bg backdrop-blur-sm border-b border-border"
+    >
+      <div class="max-w-content mx-auto px-4 py-2 flex items-center">
+        <a class="nav-brand" href="/">
+          <img src="/favicon-32x32.png" alt="Cog" width="24" height="24" />
+          Cog
+        </a>
+
+        <!-- Hamburger button — mobile only -->
+        <button
+          type="button"
+          id="nav-toggle"
+          class="sm:hidden ml-auto p-1 text-muted hover:text-text cursor-pointer"
+          aria-label="Menu"
+          aria-expanded="false"
+          aria-controls="nav-body"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <rect y="3" width="20" height="2" rx="1"></rect>
+            <rect y="9" width="20" height="2" rx="1"></rect>
+            <rect y="15" width="20" height="2" rx="1"></rect>
+          </svg>
+        </button>
+
+        <!-- Nav body — always visible on desktop, toggled on mobile -->
+        <div
+          id="nav-body"
+          class="hidden sm:flex flex-col sm:flex-row sm:items-center gap-3
+            absolute inset-x-0 top-full sm:static
+            bg-nav-bg sm:bg-transparent backdrop-blur-sm sm:[backdrop-filter:none]
+            border-b border-border sm:border-0 p-4 sm:p-0 sm:ml-auto z-40"
+        >
+          <a class="nav-link" href="/">Cog for macOS</a>
+          <span
+            class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0"
+            aria-hidden="true"></span>
+          <a class="nav-link" href="/xpcog">XPCog</a>
+          {
+            GROUPS.map((g) => (
+              <Fragment>
+                <span
+                  class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0"
+                  aria-hidden="true"
+                />
+                <a class="nav-link" href={"#" + g.id}>
+                  {g.label}
+                </a>
+              </Fragment>
+            ))
+          }
+        </div>
+      </div>
+    </header>
+
+    <div class="max-w-content mx-auto px-4 py-6">
+      <!-- Hero -->
+      <div class="jumbotron">
+        <div class="enter-stagger">
+          <div class="sec-label">Acknowledgements</div>
+          <h2 class="hero-title">Built on other people's work.</h2>
+          <p class="text-body mb-4">
+            Cog and XPCog play as much as they do because of the decoders,
+            emulators, libraries and data below, and the people who wrote them.
+            Each entry names its licence as the source trees state it — where
+            they state one — and which of the two players uses it.
+          </p>
+          {/*
+            The filter is a progressive enhancement: without JavaScript the
+            buttons stay hidden and every entry shows.
+          */}
+          <div
+            id="credit-filter"
+            class="flex items-center gap-2 flex-wrap"
+            hidden
+            role="group"
+            aria-label="Show credits for"
+          >
+            <button type="button" class="filter-btn" data-filter="all" aria-pressed="true">
+              Both
+            </button>
+            <button type="button" class="filter-btn" data-filter="cog" aria-pressed="false">
+              Cog
+            </button>
+            <button type="button" class="filter-btn" data-filter="xpcog" aria-pressed="false">
+              XPCog
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="credits" data-filter="all">
+        {
+          GROUPS.map((g) => (
+            <section
+              id={g.id}
+              class="credit-group py-10 border-b border-border scroll-reveal-group"
+            >
+              <div class="sec-label">{g.label}</div>
+              <h2 class="text-heading font-bold tracking-heading mb-4">
+                {g.title}
+              </h2>
+              <ul class="credit-list">
+                {byGroup(g.id).map((c) => (
+                  <li
+                    class="credit-entry"
+                    data-cog={c.usedBy.includes("cog") ? "" : undefined}
+                    data-xpcog={c.usedBy.includes("xpcog") ? "" : undefined}
+                  >
+                    <div class="flex items-baseline flex-wrap gap-x-3 gap-y-1">
+                      <span class="credit-name">
+                        {c.url ? <a href={c.url}>{c.name}</a> : c.name}
+                      </span>
+                      <span class="flex gap-1">
+                        {c.usedBy.map((app) => (
+                          <span class="credit-tag">{APP_LABELS[app]}</span>
+                        ))}
+                      </span>
+                      {hasLicense(c) && (
+                      <span class="ml-auto">
+                        {c.licenseUrl ? (
+                          <a
+                            href={c.licenseUrl}
+                            class={isSpdx(c.license) ? "credit-license" : "credit-license-text"}
+                          >
+                            {licenseLabel(c.license)}
+                          </a>
+                        ) : (
+                          <span
+                            class={isSpdx(c.license) ? "credit-license" : "credit-license-text"}
+                          >
+                            {licenseLabel(c.license)}
+                          </span>
+                        )}
+                      </span>
+                      )}
+                    </div>
+                    <div class="credit-use">{c.use}</div>
+                    {c.copyright && (
+                      <div class="credit-copyright">{c.copyright}</div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+        }
+      </div>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div>
+          &copy; 2021–2026 <a href="https://kode54.net">Christopher Snowhill</a>.
+          <a href="https://cogx.org/">Originally developed</a> by <a
+            href="http://vspader.com/">Vincent Spader</a
+          >.
+          <a href="/acknowledgements">Acknowledgements</a>.
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="https://losno.co" class="wordmark">
+            <img
+              src="https://assets.losno.co/WordmarkForLight.svg"
+              alt="LoSnoCo"
+              style="height: 14px;"
+            />
+          </a>
+          <a href="https://astro.build">
+            <img
+              src="https://astro.badg.es/v2/built-with-astro/tiny.svg"
+              alt="Built with Astro"
+              width="120"
+              height="20"
+            />
+          </a>
+        </div>
+      </footer>
+    </div>
+    <script>
+      (() => {
+        "use strict";
+        const storedTheme = localStorage.getItem("theme");
+        const prefersDark = () =>
+          window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        const setTheme = (theme: string) => {
+          const isDark =
+            theme === "dark" || (theme === "auto" && prefersDark());
+          document.documentElement.classList.toggle("dark", isDark);
+          document.documentElement.setAttribute("data-theme", theme);
+        };
+
+        setTheme(storedTheme ?? (prefersDark() ? "dark" : "light"));
+
+        window
+          .matchMedia("(prefers-color-scheme: dark)")
+          .addEventListener("change", () => {
+            const stored = localStorage.getItem("theme");
+            if (stored !== "light" && stored !== "dark") setTheme("auto");
+          });
+
+        window.addEventListener("DOMContentLoaded", () => {
+          // Hamburger toggle
+          const btn = document.getElementById("nav-toggle");
+          const nav = document.getElementById("nav-body");
+          if (btn && nav) {
+            btn.addEventListener("click", () => {
+              const open = nav.classList.toggle("hidden");
+              btn.setAttribute("aria-expanded", String(!open));
+            });
+            // Close drawer when resizing to desktop
+            window
+              .matchMedia("(min-width: 640px)")
+              .addEventListener("change", (e) => {
+                if (e.matches) nav.classList.add("hidden");
+              });
+          }
+
+          // Cog / XPCog filter
+          const filter = document.getElementById("credit-filter");
+          const list = document.getElementById("credits");
+          if (filter && list) {
+            filter.hidden = false;
+            filter.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach((b) => {
+              b.addEventListener("click", () => {
+                list.dataset.filter = b.dataset.filter;
+                filter.querySelectorAll("[data-filter]").forEach((o) =>
+                  o.setAttribute("aria-pressed", String(o === b)),
+                );
+              });
+            });
+          }
+
+          // Scroll-driven reveal — see index.astro for the reasoning.
+          const reveals = document.querySelectorAll<HTMLElement>(
+            ".scroll-reveal, .scroll-reveal-group > *:not(.scroll-reveal-group):not(.site-footer)",
+          );
+          if (
+            "IntersectionObserver" in window &&
+            !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ) {
+            const io = new IntersectionObserver(
+              (entries) => {
+                for (const entry of entries) {
+                  if (entry.isIntersecting) {
+                    entry.target.classList.add("is-revealed");
+                    io.unobserve(entry.target);
+                  }
+                }
+              },
+              { rootMargin: "0px 0px -8% 0px", threshold: 0 },
+            );
+            reveals.forEach((el) => io.observe(el));
+          } else {
+            // Reduced motion or no IO support — show everything immediately.
+            reveals.forEach((el) => el.classList.add("is-revealed"));
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

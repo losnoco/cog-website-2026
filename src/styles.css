@@ -282,6 +282,43 @@
   .formats-col ul ul { padding-left: 1rem; }
   .formats-col ul ul li { @apply text-[0.8rem] text-muted; }
 
+  /* Acknowledgements — one row per credited project. Licences that are SPDX
+     expressions are set in mono like other identifiers; free-text licences
+     ("Snes9x licence (non-commercial)") stay in the body face so they read as
+     names, not ids. */
+  .credit-list { @apply list-none p-0 m-0; }
+  .credit-entry {
+    @apply py-3 border-b border-border last:border-b-0;
+  }
+  .credit-name { @apply text-body font-semibold; }
+  .credit-tag {
+    @apply text-caption font-semibold uppercase text-muted
+           border border-border rounded-tag px-2;
+    letter-spacing: 0.08em;
+  }
+  .credit-license {
+    @apply text-technical text-muted;
+    font-family: var(--font-mono-qp);
+  }
+  .credit-license-text { @apply text-technical text-muted italic; }
+  .credit-use { @apply text-technical mt-0.5; }
+  .credit-copyright { @apply text-caption text-muted mt-0.5; }
+  #credits[data-filter="cog"] .credit-entry:not([data-cog]),
+  #credits[data-filter="xpcog"] .credit-entry:not([data-xpcog]) {
+    display: none;
+  }
+  .filter-btn {
+    @apply text-label font-semibold uppercase text-muted
+           border border-border bg-transparent rounded-btn px-3 py-1.5
+           cursor-pointer transition-colors
+           hover:bg-surface hover:text-text hover:border-border-strong;
+    letter-spacing: 0.1em;
+    transition-duration: 160ms;
+  }
+  .filter-btn[aria-pressed="true"] {
+    @apply bg-surface-2 text-text border-border-strong;
+  }
+
   /* Version entry */
   .version-entry {
     @apply py-6 border-b border-border last:border-b-0;

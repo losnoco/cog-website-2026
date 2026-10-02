@@ -176,8 +176,7 @@ const [latest, ...older] = releases;
           <h2 class="hero-title">Cog, for Windows and Linux.</h2>
           <p class="text-body mb-4">
             XPCog is <a href="https://github.com/losnoco/XPCog">a port of Cog</a>
-            in C++20 — <a href="https://www.wxwidgets.org/">wxWidgets</a> on
-            Windows, a native GNOME app in GTK 4 and libadwaita on Linux, and
+            in C++20 — a native WinUI 3 app on Windows, a native GNOME app in GTK 4 and libadwaita on Linux, and
             the same decoders, the same gapless engine, the same settings keys
             on both. It is early, and every build below is
             what CI published on the day it says.
@@ -209,12 +208,14 @@ const [latest, ...older] = releases;
                   comes from the appcast: a GitHub release carries no such
                   field. The floors come from the XPCog repository — Linux needs
                   the GTK 4.22 and libadwaita 1.9 it builds against; Windows
-                  declares no floor, but the hard link to C++/WinRT for media
-                  keys and the accent colour makes it 64-bit Windows 10 in
-                  practice. Bump these here when they move there.
+                  needs 10 version 1809, the Windows App SDK's floor, as the
+                  README states since the WinUI player in 3.0.0. Bump these here
+                  when they move there.
                 */}
                 <p class="install-note mb-3">
-                  <strong>Windows</strong> 10 or later, 64-bit.{" "}
+                  <strong>Windows</strong> 10 version 1809 or later, 64-bit; the
+                  installer fetches Microsoft's Windows App Runtime if it is
+                  missing.{" "}
                   <strong>Linux</strong> x86_64, with GTK 4.22 and libadwaita
                   1.9 or newer from your distribution — Ubuntu 26.04, Fedora 44,
                   Arch, or anything on GNOME 50 or later.{" "}

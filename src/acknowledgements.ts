@@ -4,7 +4,8 @@
 // ~/Projects/Cog (Frameworks/, ThirdParty/, Plugins/, submodules, the prebuilt
 // ThirdParty/libraries.tar.xz) and XPCog at ~/Projects/XPCog (vendor/, ports/,
 // vcpkg's share/<port>/copyright, the system licence files, and its own
-// audited table in uicore/src/Credits.cpp). `source` says where each licence
+// audited table in uicore/src/Credits.cpp; the Windows rows re-read for 3.0.0
+// at 7cf691a, after WinUI 3 replaced wxWidgets). `source` says where each licence
 // was read. "unknown" means neither tree carries a licence statement for it;
 // the page credits those by name and use only, with no licence line.
 //
@@ -114,19 +115,14 @@ export const credits: Credit[] = [
   { name: "HRTF (MinPHR) loader", url: "", license: "unknown", use: "Loads HRTF data for headphone virtualisation", usedBy: ["cog"], group: "processing", source: "Cog: Audio/ThirdParty/hrtf/HrtfData.cpp, no licence" },
 
   // --------------------------------------------------------------- interface
-  { name: "wxWidgets", url: "https://www.wxwidgets.org", license: "LGPL-2.0-or-later WITH WxWindows-exception-3.1", use: "Draws XPCog's interface on Windows", usedBy: ["xpcog"], group: "interface", source: "XPCog: Credits.cpp; vcpkg licence listing" },
+  { name: "WinUI 3", url: "https://github.com/microsoft/microsoft-ui-xaml", license: "MIT", copyright: "© Microsoft Corporation", use: "Draws XPCog's interface on Windows", usedBy: ["xpcog"], group: "interface", source: "XPCog: Credits.cpp; microsoft-ui-xaml LICENSE at main, checked 2026-10-01" },
+  { name: "Windows App SDK", url: "https://github.com/microsoft/WindowsAppSDK", license: "MIT", copyright: "© Microsoft Corporation", use: "Windowing, startup and single instance on Windows", usedBy: ["xpcog"], group: "interface", source: "XPCog: Credits.cpp; WindowsAppSDK LICENSE at main, checked 2026-10-01" },
+  { name: "Win2D", url: "https://github.com/microsoft/Win2D", license: "MIT", copyright: "© Microsoft Corporation", use: "Draws the spectrum, the oscilloscope and the waveform on Windows", usedBy: ["xpcog"], group: "interface", source: "XPCog: Credits.cpp; Win2D LICENSE.txt at main, checked 2026-10-01" },
+  { name: "C++/WinRT", url: "https://github.com/microsoft/cppwinrt", license: "MIT", copyright: "© Microsoft Corporation", use: "Calls the Windows Runtime from C++", usedBy: ["xpcog"], group: "interface", source: "XPCog: Credits.cpp; cppwinrt LICENSE at main, checked 2026-10-01" },
   { name: "GTK", url: "https://www.gtk.org", license: "LGPL-2.1-or-later", use: "Draws XPCog's interface on Linux", usedBy: ["xpcog"], group: "interface", source: "XPCog: Credits.cpp" },
   { name: "libadwaita", url: "https://gnome.pages.gitlab.gnome.org/libadwaita/", license: "LGPL-2.1-or-later", use: "Draws XPCog's interface on Linux", usedBy: ["xpcog"], group: "interface", source: "XPCog: Credits.cpp" },
   { name: "GLib", url: "https://docs.gtk.org/glib/", license: "LGPL-2.1-or-later", use: "D-Bus, media keys and notifications on Linux", usedBy: ["xpcog"], group: "interface", source: "XPCog: Credits.cpp" },
   { name: "libsecret", url: "https://gnome.pages.gitlab.gnome.org/libsecret/", license: "LGPL-2.1-or-later", use: "Keeps passwords in the system keyring on Linux", usedBy: ["xpcog"], group: "interface", source: "XPCog: Credits.cpp" },
-  { name: "NanoSVG", url: "https://github.com/memononen/nanosvg", license: "Zlib", copyright: "© Mikko Mononen", use: "Draws XPCog's interface icons on Windows", usedBy: ["xpcog"], group: "interface", source: "XPCog: Credits.cpp" },
-  { name: "Lucide", url: "https://lucide.dev", license: "ISC", copyright: "© Lucide Contributors", use: "XPCog's interface icons on Windows", usedBy: ["xpcog"], group: "interface", source: "XPCog: Credits.cpp" },
-  { name: "Expat", url: "https://libexpat.github.io", license: "MIT", copyright: "© 1998–2000 Thai Open Source Software Center Ltd and Clark Cooper", use: "Parses XML for wxWidgets", usedBy: ["xpcog"], group: "interface", source: "XPCog: /usr/share/licenses/expat/COPYING" },
-  { name: "PCRE2", url: "https://www.pcre.org", license: "BSD-3-Clause WITH PCRE2-exception", use: "Regular expressions for wxWidgets", usedBy: ["xpcog"], group: "interface", source: "XPCog: upstream LICENCE.md" },
-  { name: "libpng", url: "http://www.libpng.org", license: "libpng-2.0", use: "Loads PNG images for wxWidgets", usedBy: ["xpcog"], group: "interface", source: "XPCog: /usr/share/licenses/libpng/LICENSE" },
-  { name: "libjpeg-turbo", url: "https://libjpeg-turbo.org", license: "IJG AND BSD-3-Clause AND Zlib", use: "Loads JPEG images for wxWidgets", usedBy: ["xpcog"], group: "interface", source: "XPCog: /usr/share/licenses/libjpeg-turbo/LICENSE.md" },
-  { name: "libwebp", url: "https://developers.google.com/speed/webp", license: "BSD-3-Clause", copyright: "© 2010 Google Inc.", use: "Loads WebP images for wxWidgets", usedBy: ["xpcog"], group: "interface", source: "XPCog: /usr/share/licenses/libwebp/COPYING" },
-  { name: "LibTIFF", url: "https://libtiff.gitlab.io/libtiff/", license: "libtiff", copyright: "© 1988–1997 Sam Leffler; © 1991–1997 Silicon Graphics, Inc.", use: "Loads TIFF images for wxWidgets", usedBy: ["xpcog"], group: "interface", source: "XPCog: /usr/share/licenses/libtiff/LICENSE.md" },
   { name: "dirent for Windows", url: "https://github.com/tronkko/dirent", license: "MIT", copyright: "© 1998–2019 Toni Ronkko", use: "Lists folders for the PSF cores on Windows", usedBy: ["xpcog"], group: "interface", source: "XPCog: upstream LICENSE" },
   { name: "SQLite", url: "https://sqlite.org", license: "Public domain", use: "Stores the music library", usedBy: ["xpcog"], group: "interface", source: "XPCog: /usr/share/licenses/sqlite (SPDX 'blessing')" },
   { name: "libcurl", url: "https://curl.se", license: "curl", copyright: "© 1996–2026 Daniel Stenberg and many contributors", use: "Fetches HTTP and internet radio", usedBy: ["xpcog"], group: "interface", source: "XPCog: vcpkg share/curl/copyright" },

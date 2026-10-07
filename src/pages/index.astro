@@ -99,18 +99,6 @@ const [latest, ...older] = feedFmtd;
     />
   </head>
   <body>
-    <!-- XPCog announcement. The nav already links to it; this is the version a
-         reader who came for the Mac player actually sees. -->
-    <a class="announce" href="/xpcog">
-      <div class="announce-inner">
-        <span class="announce-tag">New</span>
-        <span class="announce-text"
-          >XPCog — Cog for Windows and Linux. Early builds are up now.</span
-        >
-        <span class="announce-cta">Downloads &rarr;</span>
-      </div>
-    </a>
-
     <header
       class="sticky top-0 z-50 bg-nav-bg backdrop-blur-sm border-b border-border"
     >
@@ -227,6 +215,18 @@ const [latest, ...older] = feedFmtd;
     </header>
 
     <div class="max-w-content mx-auto px-4 py-6">
+      <!-- iPhone and iPad teaser. Not a port: built from the same repository
+           with the same audio engine and plugins, released separately from
+           the Mac app. No App Store link or date until it ships. -->
+      <aside id="ios" class="teaser enter-fade">
+        <div class="sec-label">Coming soon</div>
+        <div class="teaser-title">Cog for iPhone and iPad</div>
+        <p class="teaser-text">
+          The same audio engine and format plugins as the Mac app, playing your
+          music straight from the Files app. Requires iOS or iPadOS 18.
+        </p>
+      </aside>
+
       <!-- Hero -->
       <div class="jumbotron flex gap-6">
         <div class="flex-1 min-w-0 enter-stagger">

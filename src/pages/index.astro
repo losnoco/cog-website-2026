@@ -51,17 +51,17 @@ const [latest, ...older] = feedFmtd;
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    <title>Cog — Audio Player for macOS</title>
+    <title>Cog — Audio Player for Mac, iPhone and iPad</title>
     <meta
       name="description"
-      content="A free and open source audio player for macOS."
+      content="A free and open source audio player for Mac, iPhone and iPad."
     />
     <meta property="og:url" content={Astro.site} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Cog" />
     <meta
       property="og:description"
-      content="A free and open source audio player for macOS."
+      content="A free and open source audio player for Mac, iPhone and iPad."
     />
     <meta property="og:image" content={Astro.site + "hero.png"} />
     <meta name="twitter:card" content="summary_large_image" />
@@ -70,7 +70,7 @@ const [latest, ...older] = feedFmtd;
     <meta name="twitter:title" content="Cog" />
     <meta
       name="twitter:description"
-      content="A free and open source audio player for macOS."
+      content="A free and open source audio player for Mac, iPhone and iPad."
     />
     <meta name="twitter:image" content={Astro.site + "hero.png"} />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -215,28 +215,31 @@ const [latest, ...older] = feedFmtd;
     </header>
 
     <div class="max-w-content mx-auto px-4 py-6">
-      <!-- iPhone and iPad teaser. Not a port: built from the same repository
-           with the same audio engine and plugins, released separately from
-           the Mac app. No App Store link or date until it ships. -->
+      <!-- iPhone and iPad announcement. Not a port: built from the same
+           repository with the same audio engine and plugins, and sold as the
+           same App Store listing as the Mac app. -->
       <aside id="ios" class="teaser enter-fade">
-        <div class="sec-label">Coming soon</div>
+        <div class="sec-label">Now available</div>
         <div class="teaser-title">Cog for iPhone and iPad</div>
         <p class="teaser-text">
           The same audio engine and format plugins as the Mac app, playing your
-          music straight from the Files app. Requires iOS or iPadOS 18.
+          music straight from the Files app. Requires iOS or iPadOS 18.{" "}
+          <a href="https://apps.apple.com/us/app/cog-kode54/id1630499622"
+            >Get it on the App Store</a
+          >
         </p>
       </aside>
 
       <!-- Hero -->
       <div class="jumbotron flex gap-6">
         <div class="flex-1 min-w-0 enter-stagger">
-          <div class="sec-label">Audio Player for macOS</div>
+          <div class="sec-label">Audio Player for Mac, iPhone and iPad</div>
           <h2 class="hero-title">
-            A free and open source audio player for macOS.
+            A free and open source audio player for Mac, iPhone and iPad.
           </h2>
           <div class="flex items-center gap-3 mb-3">
             <a class="btn btn-download btn-lg" href={latest.Enclosure.URL}>
-              Download v{latest.Version}
+              Download v{latest.Version} for Mac
               <span class="size-label">{latest.size}</span>
             </a>
           </div>
@@ -255,8 +258,8 @@ const [latest, ...older] = feedFmtd;
         <div class="shrink-0 flex items-start justify-end">
           <a href="https://apps.apple.com/us/app/cog-kode54/id1630499622">
             <img
-              src="/masdl.svg"
-              alt="Download on the Mac App Store"
+              src="/appstore.svg"
+              alt="Download on the App Store"
               style="height: 40px;"
             />
           </a>
@@ -454,6 +457,10 @@ const [latest, ...older] = feedFmtd;
           <h2 class="text-heading font-bold tracking-heading mb-4">
             Older versions
           </h2>
+          <p class="text-body mb-4">
+            These releases and their notes cover the Mac app only. Cog for
+            iPhone and iPad updates through the App Store.
+          </p>
           {
             older.map((item: CogFeedFmtd) => (
               <div class="version-entry" id={"v" + item.Version}>

@@ -181,9 +181,9 @@
     transition-duration: 160ms;
   }
 
-  /* Teaser card above the hero — the iPhone and iPad app before it ships.
-     A light orange tint and no button: the solid-orange button belongs to
-     the download, and there is nothing to download yet. */
+  /* Announcement card above the hero — the iPhone and iPad app.
+     A light orange tint and a text link, not a button: the solid-orange
+     button belongs to the Mac download. */
   .teaser {
     @apply block border rounded-container px-5 py-4 mb-6;
     background: color-mix(in srgb, var(--color-orange) 6%, var(--bg));

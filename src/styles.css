@@ -238,6 +238,9 @@
   }
 
   /* Feature list */
+  .feature-heading {
+    @apply text-subheading font-semibold text-text mt-6 mb-1 tracking-subheading;
+  }
   .feature-list {
     @apply list-none p-0;
   }

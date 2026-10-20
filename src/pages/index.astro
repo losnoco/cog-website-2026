@@ -272,18 +272,16 @@ const [latest, ...older] = feedFmtd;
         <h2 class="text-heading font-bold tracking-heading mb-4">
           What Cog does
         </h2>
+        <h3 class="feature-heading">Everywhere</h3>
         <ul class="feature-list scroll-reveal-group">
           <li>Gapless playback</li>
-          <li>Automatic updates</li>
-          <li>Global hotkeys</li>
-          <li>Desktop notifications</li>
-          <li>Scrobbling with Last.fm</li>
+          <li>Scrobbling with Last.fm and ListenBrainz</li>
           <li>Shuffle, both albums and tracks</li>
           <li>Repeat single track, album, or whole playlist</li>
           <li>
             Playback from HTTP(S) sources, both livestreams and static files
             <ul>
-              <li>Apple's HTTP Live Streaming (HLS) via FFmpeg</li>
+              <li>Apple's HTTP Live Streaming (HLS)</li>
               <li>
                 Live metadata from Shoutcast, Icecast, Ogg Vorbis comments, and
                 timed ID3v2 packets
@@ -297,24 +295,86 @@ const [latest, ...older] = feedFmtd;
             Album artwork per track — embedded and external, cached per unique
             image. JPEG, PNG, GIF, WebP, HEIC, or AVIF.
           </li>
-          <li>Graphic equalizer</li>
-          <li>Spectrum visualization in the toolbar</li>
           <li>
-            HRTF for binaural sound
+            Track info: tags, format, ReplayGain values, and play counts, as
+            the Mac's Info Inspector shows them
+          </li>
+          <li>
+            Synced lyrics from the file's own tags, or looked up on <a
+              href="https://lrclib.net">LRCLIB</a
+            > when the file has none
+          </li>
+          <li>
+            ReplayGain by album or track, with clipping prevention, falling back
+            to Sound Check
+          </li>
+          <li>Graphic equalizer with presets</li>
+          <li>Spectrum visualization</li>
+          <li>Waveform seek bar</li>
+          <li>
+            Spatial audio: surround tracks are spatialized on headphones and
+            speakers with Apple's renderer and your personalized HRTF, with
+            head tracking on AirPods
+          </li>
+          <li>
+            Speed control: plain varispeed like a record player, or tempo and
+            pitch shifting with either the <a
+              href="https://breakfastquay.com/rubberband/">Rubber Band</a
+            > or the <a href="https://signalsmith-audio.co.uk/code/stretch/"
+              >Signalsmith Stretch</a
+            > libraries
+          </li>
+        </ul>
+
+        <h3 class="feature-heading">On the Mac</h3>
+        <ul class="feature-list scroll-reveal-group">
+          <li>Automatic updates in the direct download edition</li>
+          <li>Global hotkeys, notifications, and AppleScript support</li>
+          <li>
+            A file tree browser with search, Spotlight search, and a mini player
+          </li>
+          <li>Stereo upmixed to surround with FreeSurround</li>
+          <li>
+            Exclusive mode, which takes the output device for Cog and runs it at
+            each track's sample rate
+          </li>
+          <li>
+            Signal Inspector, showing every stage from the decoder to the device
+            with live peak and RMS meters
+          </li>
+          <li>
+            Remote Control (opt-in, macOS 13 or later): once you turn it on,
+            the bundled <code>cog-mcp</code> tool lets MCP clients such as AI
+            assistants control playback and the playlist
+          </li>
+        </ul>
+
+        <h3 class="feature-heading">On iPhone and iPad</h3>
+        <ul class="feature-list scroll-reveal-group">
+          <li>
+            Plays files and folders from the Files app where they are, without
+            importing copies
             <ul>
               <li>
-                Head tracking with AirPods and compatible headphones (macOS
-                Monterey+)
+                Files shared from other apps go into Cog's own Music folder,
+                which Files and Finder show
               </li>
             </ul>
           </li>
           <li>
-            Speed control and pitch shifting with either the <a
-              href="https://breakfastquay.com/rubberband/">Rubber Band</a
-            > or the <a href="https://signalsmith-audio.co.uk/code/stretch/"
-              >SignalSmith Stretch</a
-            > libraries.
+            Now Playing themed from the album art, with a mini player in Liquid
+            Glass
           </li>
+          <li>
+            Fast forward and rewind by holding Next and Previous, and lock
+            screen controls
+          </li>
+          <li>Search the playlist by title, artist, or album</li>
+          <li>
+            MIDI with your own SoundFonts, or Sound Canvas emulation from an
+            SC-55 ROM set you import
+          </li>
+          <li>An iPad layout with menus and keyboard shortcuts</li>
         </ul>
 
         <!-- Formats -->

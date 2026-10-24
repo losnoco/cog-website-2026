@@ -1,0 +1,143 @@
+---
+import { DateTime } from "luxon";
+import Base from "../layouts/Base.astro";
+import { fetchReleases } from "../xpcog_releases";
+import { formatDate, formatSize, localePath, t, type Lang } from "../i18n";
+import { xpcog as s } from "../strings/xpcog";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const releases = (await fetchReleases()).map((r) => ({
+  ...r,
+  date: formatDate(DateTime.fromISO(r.publishedISO), lang),
+  downloads: r.downloads.map((a) => ({ ...a, size: formatSize(a.size, lang) })),
+}));
+type Release = (typeof releases)[number];
+const [latest, ...older] = releases;
+const notesInEnglish = t(s.notesInEnglish, lang);
+---
+
+<Base
+  lang={lang}
+  path="/xpcog"
+  title={t(s.title, lang)}
+  description={t(s.description, lang)}
+  ogTitle="XPCog"
+  brand={{ href: localePath(lang, "/xpcog"), label: "XPCog" }}
+  nav={[
+    { href: localePath(lang, "/"), label: s.nav.cog },
+    { href: "#releases", label: s.nav.releases },
+    { href: "https://github.com/losnoco/XPCog", label: "GitHub", external: true },
+    { href: "https://discord.gg/4A6mrhtfAz", label: "Discord", external: true },
+  ]}
+  donate
+>
+  <!-- Hero -->
+  <div class="jumbotron">
+    <div class="enter-stagger">
+      <div class="sec-label">{t(s.hero.label, lang)}</div>
+      <h2 class="hero-title">{t(s.hero.title, lang)}</h2>
+      <p class="text-body mb-4" set:html={t(s.hero.intro, lang)} />
+      {
+        latest ? (
+          <Fragment>
+            {/*
+              Two orange buttons, against the LoSnoCo "one primary per view"
+              rule, and deliberately: this is one action — download XPCog —
+              and which button you press is a fact about your computer, not
+              a choice between two things to do. Demoting either one would
+              say the other is the real download.
+            */}
+            <div class="flex items-center gap-3 flex-wrap mb-3">
+              {latest.downloads.map((asset) => (
+                <a class="btn btn-download btn-lg" href={asset.url}>
+                  {asset.platformLabel}{" "}
+                  <span class="size-label">{asset.size}</span>
+                </a>
+              ))}
+            </div>
+            <div class="hero-meta mb-3">
+              {s.hero.meta[lang](latest.version, latest.date)}
+              <a href={latest.url}>{t(s.hero.releaseOnGitHub, lang)}</a>
+            </div>
+            {/*
+              Hand-maintained, unlike Cog's "Requires macOS" line, which
+              comes from the appcast: a GitHub release carries no such
+              field. The floors come from the XPCog repository — Linux needs
+              the GTK 4.22 and libadwaita 1.9 it builds against; Windows
+              needs 10 version 1809, the Windows App SDK's floor, as the
+              README states since the WinUI player in 3.0.0. Bump these in
+              src/strings/xpcog.ts, in both languages, when they move there.
+            */}
+            <p
+              class="install-note mb-3"
+              set:html={s.hero.requirements[lang](localePath(lang, "/"))}
+            />
+            {/*
+              The AUR line carries a warning because the AUR earned one in
+              2026: orphaned packages adopted by whoever asked, then given
+              malicious commits — the "Atomic Arch" campaign in June, and
+              two further waves after it. Telling people to read a PKGBUILD
+              is the only advice that survives the next wave, so it is here
+              rather than a link to whichever incident is current.
+            */}
+            <p class="install-note mb-3" set:html={t(s.hero.aur, lang)} />
+            {notesInEnglish && latest.notesHtml && (
+              <div class="hero-meta mb-2">{notesInEnglish}</div>
+            )}
+            <div class="release-notes" lang="en" set:html={latest.notesHtml} />
+            {older.length > 0 && (
+              <div class="mt-4">
+                <a class="btn btn-sm btn-outline-losnoco" href="#releases">
+                  {t(s.hero.older, lang)}
+                </a>
+              </div>
+            )}
+          </Fragment>
+        ) : (
+          <p class="text-body" set:html={t(s.hero.none, lang)} />
+        )
+      }
+    </div>
+  </div>
+
+  <!-- Releases -->
+  <section
+    id="releases"
+    class="py-10 border-b border-border scroll-reveal-group"
+  >
+    <div class="sec-label">{t(s.releases.label, lang)}</div>
+    <h2 class="text-heading font-bold tracking-heading mb-4">
+      {t(older.length > 0 ? s.releases.older : s.releases.all, lang)}
+    </h2>
+    {
+      older.length > 0 ? (
+        older.map((item: Release) => (
+          <div class="version-entry" id={"v" + item.version}>
+            <div class="flex items-baseline flex-wrap gap-2 mb-2">
+              <span class="version-num">v{item.version}</span>
+              <span class="version-date">{item.date}</span>
+              <span class="ml-auto flex items-center gap-2 flex-wrap">
+                {item.downloads.map((asset) => (
+                  <a class="btn btn-sm btn-outline-losnoco" href={asset.url}>
+                    {asset.platformLabel}{" "}
+                    <span class="size-label">{asset.size}</span>
+                  </a>
+                ))}
+              </span>
+            </div>
+            <div class="release-notes" lang="en" set:html={item.notesHtml} />
+          </div>
+        ))
+      ) : (
+        <p class="text-technical text-muted">
+          {t(latest ? s.releases.nothingOlder : s.releases.nothing, lang)}
+        </p>
+      )
+    }
+  </section>
+</Base>

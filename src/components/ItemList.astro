@@ -1,0 +1,24 @@
+---
+// A nested list of `Item`s, in one language. Item text is HTML.
+
+import { t, type Item, type Lang } from "../i18n";
+
+interface Props {
+  items: Item[];
+  lang: Lang;
+  class?: string;
+}
+
+const { items, lang, class: className } = Astro.props;
+---
+
+<ul class={className}>
+  {
+    items.map((item) => (
+      <li>
+        <Fragment set:html={t(item.text, lang)} />
+        {item.children && <Astro.self items={item.children} lang={lang} />}
+      </li>
+    ))
+  }
+</ul>

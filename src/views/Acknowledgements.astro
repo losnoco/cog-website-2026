@@ -1,0 +1,160 @@
+---
+import Base from "../layouts/Base.astro";
+import { credits, type App, type Credit, type Group } from "../acknowledgements";
+import { localePath, t, type Lang } from "../i18n";
+import { acknowledgements as s, GROUPS } from "../strings/acknowledgements";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const APP_LABELS: Record<App, string> = { cog: "Cog", xpcog: "XPCog" };
+
+// "unknown" means neither source tree states the terms. Those are credited by
+// name and use, with no licence line, rather than a guessed one.
+const hasLicense = (c: Credit) => c.license !== "unknown";
+
+const byGroup = (group: Group): Credit[] =>
+  credits
+    .filter((c) => c.group === group)
+    .sort((a, b) =>
+      a.name.localeCompare(b.name, lang, { sensitivity: "base" }),
+    );
+
+// SPDX expressions ("LGPL-2.1-or-later", "MIT OR Apache-2.0") read as
+// identifiers and are set in mono. Anything else — "Snes9x licence
+// (non-commercial)", "Public domain" — is a sentence and is set as prose, so
+// it does not pass for an SPDX id. The test reads the English, since an SPDX
+// id is the same in both languages and prose is not.
+const SPDX = /^[A-Za-z0-9.+-]+(?: (?:OR|AND|WITH) [A-Za-z0-9.+-]+)*$/;
+const isSpdx = (c: Credit) => SPDX.test(t(c.license, "en"));
+const licenseLabel = (c: Credit) => {
+  const license = t(c.license, lang);
+  return isSpdx(c)
+    ? license
+    : license.charAt(0).toUpperCase() + license.slice(1);
+};
+---
+
+<Base
+  lang={lang}
+  path="/acknowledgements"
+  title={t(s.title, lang)}
+  description={t(s.description, lang)}
+  ogTitle={t(s.title, lang)}
+  brand={{ href: localePath(lang, "/"), label: "Cog" }}
+  nav={[
+    { href: localePath(lang, "/"), label: s.nav.cog },
+    { href: localePath(lang, "/xpcog"), label: "XPCog" },
+    ...GROUPS.map((g) => ({ href: "#" + g.id, label: g.label })),
+  ]}
+>
+  <!-- Hero -->
+  <div class="jumbotron">
+    <div class="enter-stagger">
+      <div class="sec-label">{t(s.hero.label, lang)}</div>
+      <h2 class="hero-title">{t(s.hero.title, lang)}</h2>
+      <p class="text-body mb-4">{t(s.hero.intro, lang)}</p>
+      {/*
+        The filter is a progressive enhancement: without JavaScript the
+        buttons stay hidden and every entry shows.
+      */}
+      <div
+        id="credit-filter"
+        class="flex items-center gap-2 flex-wrap"
+        hidden
+        role="group"
+        aria-label={t(s.filter.label, lang)}
+      >
+        <button type="button" class="filter-btn" data-filter="all" aria-pressed="true">
+          {t(s.filter.both, lang)}
+        </button>
+        <button type="button" class="filter-btn" data-filter="cog" aria-pressed="false">
+          Cog
+        </button>
+        <button type="button" class="filter-btn" data-filter="xpcog" aria-pressed="false">
+          XPCog
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="credits" data-filter="all">
+    {
+      GROUPS.map((g) => (
+        <section
+          id={g.id}
+          class="credit-group py-10 border-b border-border scroll-reveal-group"
+        >
+          <div class="sec-label">{t(g.label, lang)}</div>
+          <h2 class="text-heading font-bold tracking-heading mb-4">
+            {t(g.title, lang)}
+          </h2>
+          <ul class="credit-list">
+            {byGroup(g.id).map((c) => (
+              <li
+                class="credit-entry"
+                data-cog={c.usedBy.includes("cog") ? "" : undefined}
+                data-xpcog={c.usedBy.includes("xpcog") ? "" : undefined}
+              >
+                <div class="flex items-baseline flex-wrap gap-x-3 gap-y-1">
+                  <span class="credit-name">
+                    {c.url ? <a href={c.url}>{c.name}</a> : c.name}
+                  </span>
+                  <span class="flex gap-1">
+                    {c.usedBy.map((app) => (
+                      <span class="credit-tag">{APP_LABELS[app]}</span>
+                    ))}
+                  </span>
+                  {hasLicense(c) && (
+                  <span class="ml-auto">
+                    {c.licenseUrl ? (
+                      <a
+                        href={c.licenseUrl}
+                        class={isSpdx(c) ? "credit-license" : "credit-license-text"}
+                      >
+                        {licenseLabel(c)}
+                      </a>
+                    ) : (
+                      <span
+                        class={isSpdx(c) ? "credit-license" : "credit-license-text"}
+                      >
+                        {licenseLabel(c)}
+                      </span>
+                    )}
+                  </span>
+                  )}
+                </div>
+                <div class="credit-use">{t(c.use, lang)}</div>
+                {c.copyright && (
+                  <div class="credit-copyright">{c.copyright}</div>
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+</Base>
+
+<script>
+  // Cog / XPCog filter
+  window.addEventListener("DOMContentLoaded", () => {
+    const filter = document.getElementById("credit-filter");
+    const list = document.getElementById("credits");
+    if (filter && list) {
+      filter.hidden = false;
+      filter.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach((b) => {
+        b.addEventListener("click", () => {
+          list.dataset.filter = b.dataset.filter;
+          filter.querySelectorAll("[data-filter]").forEach((o) =>
+            o.setAttribute("aria-pressed", String(o === b)),
+          );
+        });
+      });
+    }
+  });
+</script>

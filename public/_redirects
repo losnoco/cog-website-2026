@@ -1,0 +1,7 @@
+# Browsers whose first language is Spanish (es, es-CL, es-419…) get the
+# Spanish pages. Forced (!) because the English pages exist at these paths.
+# The language switcher sets an nf_lang cookie, which Netlify reads in place of
+# Accept-Language, so choosing English sticks. See src/layouts/Base.astro.
+/                  /es/                  302!  Language=es
+/xpcog             /es/xpcog             302!  Language=es
+/acknowledgements  /es/acknowledgements  302!  Language=es

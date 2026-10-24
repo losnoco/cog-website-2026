@@ -10,8 +10,6 @@
  * release job calls is for. See the README.
  */
 
-import { filesize } from "filesize";
-import { DateTime } from "luxon";
 import { createMarkdownProcessor } from "@astrojs/markdown-remark";
 
 const REPO = "losnoco/XPCog";
@@ -54,10 +52,8 @@ const PLATFORM_ORDER: Platform[] = ["windows", "macos", "linux"];
 export interface ReleaseAsset {
   name: string;
   url: string;
-  /** Bytes, as GitHub reports them. */
+  /** Bytes, as GitHub reports them. Formatted per language by the page. */
   size: number;
-  /** Same, for humans: "27.23 MB". */
-  sizeLabel: string;
   platform: Platform;
   platformLabel: string;
 }
@@ -69,10 +65,12 @@ export interface Release {
   tag: string;
   /** The release page on GitHub. */
   url: string;
+  /** Formatted per language by the page. */
   publishedISO: string;
-  /** Localised, e.g. "Aug 29, 2026, 8:17 PM". */
-  publishedLabel: string;
-  /** The release notes, rendered from Markdown. Empty when there are none. */
+  /**
+   * The release notes, rendered from Markdown, in English whatever the page's
+   * language. Empty when there are none.
+   */
   notesHtml: string;
   /** Installer assets, one per platform, in PLATFORM_ORDER. */
   downloads: ReleaseAsset[];
@@ -103,14 +101,30 @@ function classify(asset: GitHubAsset): ReleaseAsset | null {
     name: asset.name,
     url: asset.browser_download_url,
     size: asset.size,
-    sizeLabel: filesize(asset.size),
     platform: match.platform,
     platformLabel: match.label,
   };
 }
 
+let cached: Promise<Release[]> | undefined;
+
 /**
  * Every published version of XPCog, newest first.
+ *
+ * Fetched once per build and shared by the English and Spanish pages, so the
+ * second language costs no second request against the rate limit below.
+ */
+export function fetchReleases(): Promise<Release[]> {
+  cached ??= fetchFromGitHub().catch((error) => {
+    // Not cached, so that the dev server retries on the next request.
+    cached = undefined;
+    throw error;
+  });
+  return cached;
+}
+
+/**
+ * The request itself.
  *
  * Throws rather than returning an empty list when GitHub says no: the API is
  * rate-limited to 60 requests an hour per IP for anonymous callers, and a
@@ -118,7 +132,7 @@ function classify(asset: GitHubAsset): ReleaseAsset | null {
  * somebody retries; a build that quietly ships a downloads page with no
  * downloads on it is not.
  */
-export async function fetchReleases(): Promise<Release[]> {
+async function fetchFromGitHub(): Promise<Release[]> {
   const headers: Record<string, string> = {
     Accept: "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
@@ -172,9 +186,6 @@ export async function fetchReleases(): Promise<Release[]> {
           tag: item.tag_name,
           url: item.html_url,
           publishedISO: published,
-          publishedLabel: DateTime.fromISO(published).toLocaleString(
-            DateTime.DATETIME_MED,
-          ),
           notesHtml: body ? (await processor.render(body)).code : "",
           downloads,
         };

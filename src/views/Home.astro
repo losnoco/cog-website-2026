@@ -1,0 +1,178 @@
+---
+import Base from "../layouts/Base.astro";
+import ItemList from "../components/ItemList.astro";
+import { fetchCogReleases } from "../cog_feed";
+import { formatDate, formatSize, localePath, t, type Lang } from "../i18n";
+import {
+  home as s,
+  FEATURES_EVERYWHERE,
+  FEATURES_IOS,
+  FEATURES_MAC,
+  FORMATS_LEFT,
+  FORMATS_RIGHT,
+  LEGACY_BUILDS,
+} from "../strings/home";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const releases = (await fetchCogReleases()).map((r) => ({
+  ...r,
+  size: formatSize(r.size, lang),
+  date: formatDate(r.published, lang),
+}));
+const [latest, ...older] = releases;
+const notesInEnglish = t(s.notesInEnglish, lang);
+---
+
+<Base
+  lang={lang}
+  path="/"
+  title={t(s.title, lang)}
+  description={t(s.description, lang)}
+  ogTitle="Cog"
+  brand={{ href: localePath(lang, "/"), label: "Cog" }}
+  nav={[
+    { href: "#features", label: s.nav.features },
+    { href: "#formats", label: s.nav.formats },
+    { href: "#older", label: s.nav.versions },
+    { href: localePath(lang, "/xpcog"), label: "XPCog" },
+    { href: "https://github.com/losnoco/cog", label: "GitHub", external: true },
+    { href: "https://discord.gg/4A6mrhtfAz", label: "Discord", external: true },
+  ]}
+  donate
+>
+  <!-- iPhone and iPad announcement. Not a port: built from the same
+       repository with the same audio engine and plugins, and sold as the
+       same App Store listing as the Mac app. -->
+  <aside id="ios" class="teaser enter-fade">
+    <div class="sec-label">{t(s.teaser.label, lang)}</div>
+    <div class="teaser-title">{t(s.teaser.title, lang)}</div>
+    <p class="teaser-text" set:html={t(s.teaser.text, lang)} />
+  </aside>
+
+  <!-- Hero -->
+  <div class="jumbotron flex gap-6">
+    <div class="flex-1 min-w-0 enter-stagger">
+      <div class="sec-label">{t(s.hero.label, lang)}</div>
+      <h2 class="hero-title">{t(s.hero.title, lang)}</h2>
+      <div class="flex items-center gap-3 mb-3">
+        <a class="btn btn-download btn-lg" href={latest.url}>
+          {s.hero.download[lang](latest.version)}
+          <span class="size-label">{latest.size}</span>
+        </a>
+      </div>
+      <div class="hero-meta mb-3">
+        {s.hero.meta[lang](latest.date, latest.minimumSystemVersion)}
+      </div>
+      {notesInEnglish && <div class="hero-meta mb-2">{notesInEnglish}</div>}
+      <ul class="hero-notes" lang="en" set:html={latest.notesHtml} />
+      <div class="mt-4">
+        <a class="btn btn-sm btn-outline-losnoco" href="#older"
+          >{t(s.hero.older, lang)}</a
+        >
+      </div>
+    </div>
+    <div class="shrink-0 flex items-start justify-end">
+      <a href={s.appStoreUrl}>
+        <img
+          src="/appstore.svg"
+          alt={t(s.hero.appStoreAlt, lang)}
+          style="height: 40px;"
+        />
+      </a>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <section id="features" class="py-10 border-b border-border scroll-reveal-group">
+    <div class="sec-label">{t(s.features.label, lang)}</div>
+    <h2 class="text-heading font-bold tracking-heading mb-4">
+      {t(s.features.title, lang)}
+    </h2>
+    <h3 class="feature-heading">{t(s.features.everywhere, lang)}</h3>
+    <ItemList
+      class="feature-list scroll-reveal-group"
+      items={FEATURES_EVERYWHERE}
+      lang={lang}
+    />
+
+    <h3 class="feature-heading">{t(s.features.mac, lang)}</h3>
+    <ItemList
+      class="feature-list scroll-reveal-group"
+      items={FEATURES_MAC}
+      lang={lang}
+    />
+
+    <h3 class="feature-heading">{t(s.features.ios, lang)}</h3>
+    <ItemList
+      class="feature-list scroll-reveal-group"
+      items={FEATURES_IOS}
+      lang={lang}
+    />
+  </section>
+
+  <!-- Formats -->
+  <section id="formats" class="py-10 border-b border-border scroll-reveal-group">
+    <div class="sec-label">{t(s.formats.label, lang)}</div>
+    <h2 class="text-heading font-bold tracking-heading mb-4">
+      {t(s.formats.title, lang)}
+    </h2>
+    <div class="formats-grid scroll-reveal-group">
+      <div class="formats-col scroll-reveal-group">
+        <ItemList class="scroll-reveal-group" items={FORMATS_LEFT} lang={lang} />
+      </div>
+      <div class="formats-col scroll-reveal-group">
+        <ItemList class="scroll-reveal-group" items={FORMATS_RIGHT} lang={lang} />
+      </div>
+    </div>
+  </section>
+
+  <!-- Older Versions -->
+  <section id="older" class="py-10 border-b border-border scroll-reveal-group">
+    <div class="sec-label">{t(s.older.label, lang)}</div>
+    <h2 class="text-heading font-bold tracking-heading mb-4">
+      {t(s.older.title, lang)}
+    </h2>
+    <p class="text-body mb-4">
+      {t(s.older.intro, lang)}
+      {notesInEnglish && " " + notesInEnglish}
+    </p>
+    {
+      older.map((item) => (
+        <div class="version-entry" id={"v" + item.version}>
+          <div class="flex items-baseline flex-wrap gap-2 mb-2">
+            <span class="version-num">v{item.version}</span>
+            <span class="version-date">{item.date}</span>
+            <a class="btn btn-sm btn-outline-losnoco ml-auto" href={item.url}>
+              {t(s.older.download, lang)}{" "}
+              <span class="size-label">{item.size}</span>
+            </a>
+          </div>
+          <ul class="version-notes" lang="en" set:html={item.notesHtml} />
+        </div>
+      ))
+    }
+  </section>
+
+  <!-- Legacy -->
+  <section id="oldest" class="py-10 border-b border-border scroll-reveal-group">
+    <div class="sec-label">{t(s.legacy.label, lang)}</div>
+    <h2 class="text-heading font-bold tracking-heading mb-4">
+      {t(s.legacy.title, lang)}
+    </h2>
+    <div class="legacy-grid">
+      {
+        LEGACY_BUILDS.map((b) => (
+          <a class="legacy-card" href={b.url}>
+            <div class="legacy-ver">{s.legacy.version[lang](b.build)}</div>
+            <div class="legacy-os">{b.os}</div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</Base>

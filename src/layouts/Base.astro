@@ -1,0 +1,310 @@
+---
+// The frame every page shares, in either language: <head>, the header with
+// its nav and language switcher, the footer, and the page script.
+
+import "../styles.css";
+import {
+  LANGS,
+  LANG_NAMES,
+  localePath,
+  t,
+  type Lang,
+  type Text,
+} from "../i18n";
+import { common, DONATE_LINKS } from "../strings/common";
+
+export interface NavLink {
+  href: string;
+  label: Text;
+  /** Opens in a new tab. */
+  external?: boolean;
+}
+
+interface Props {
+  lang: Lang;
+  /** The page's English path, "/" or "/xpcog"; the Spanish one is derived. */
+  path: string;
+  title: string;
+  description: string;
+  ogTitle: string;
+  brand: { href: string; label: string };
+  nav: NavLink[];
+  donate?: boolean;
+}
+
+const { lang, path, title, description, ogTitle, brand, nav, donate } =
+  Astro.props;
+
+const other: Lang = lang === "en" ? "es" : "en";
+const url = (l: Lang) => new URL(localePath(l, path), Astro.site).href;
+const pageUrl = url(lang);
+---
+
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={pageUrl} />
+    {LANGS.map((l) => <link rel="alternate" hreflang={l} href={url(l)} />)}
+    <link rel="alternate" hreflang="x-default" href={url("en")} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={lang === "en" ? "en_US" : "es_CL"} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={Astro.site + "hero.png"} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="cog.losno.co" />
+    <meta property="twitter:url" content={pageUrl} />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={Astro.site + "hero.png"} />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preconnect" href="https://assets.losno.co" crossorigin />
+    <link
+      rel="preload"
+      as="font"
+      type="font/ttf"
+      href="https://assets.losno.co/fonts/inter/InterVariableLoSnoCo.ttf"
+      crossorigin
+    />
+    <link
+      rel="stylesheet"
+      href="https://assets.losno.co/fonts/inter/stylesheet.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://assets.losno.co/fonts/IosevkaLoSnoCoNoLig/IosevkaLoSnoCoNoLig.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://assets.losno.co/fonts/IosevkaLoSnoCoNoLigQp/IosevkaLoSnoCoNoLigQp.css"
+    />
+  </head>
+  <body>
+    <header
+      class="sticky top-0 z-50 bg-nav-bg backdrop-blur-sm border-b border-border"
+    >
+      <div class="max-w-content mx-auto px-4 py-2 flex items-center">
+        <a class="nav-brand" href={brand.href}>
+          <img src="/favicon-32x32.png" alt={brand.label} width="24" height="24" />
+          {brand.label}
+        </a>
+
+        <!-- Hamburger button — mobile only -->
+        <button
+          type="button"
+          id="nav-toggle"
+          class="sm:hidden ml-auto p-1 text-muted hover:text-text cursor-pointer"
+          aria-label={t(common.menu, lang)}
+          aria-expanded="false"
+          aria-controls="nav-body"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <rect y="3" width="20" height="2" rx="1"></rect>
+            <rect y="9" width="20" height="2" rx="1"></rect>
+            <rect y="15" width="20" height="2" rx="1"></rect>
+          </svg>
+        </button>
+
+        <!-- Nav body — always visible on desktop, toggled on mobile -->
+        <div
+          id="nav-body"
+          class="hidden sm:flex flex-col sm:flex-row sm:items-center gap-3
+            absolute inset-x-0 top-full sm:static
+            bg-nav-bg sm:bg-transparent backdrop-blur-sm sm:[backdrop-filter:none]
+            border-b border-border sm:border-0 p-4 sm:p-0 sm:ml-auto z-40"
+        >
+          {
+            nav.map((link, i) => (
+              <Fragment>
+                {i > 0 && (
+                  <span
+                    class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0"
+                    aria-hidden="true"
+                  />
+                )}
+                <a
+                  class="nav-link"
+                  href={link.href}
+                  target={link.external ? "_blank" : undefined}
+                >
+                  {t(link.label, lang)}
+                </a>
+              </Fragment>
+            ))
+          }
+          <span
+            class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0"
+            aria-hidden="true"></span>
+          <a
+            class="nav-link"
+            href={localePath(other, path)}
+            hreflang={other}
+            lang={other}
+            data-lang-switch={other}
+            aria-label={t(common.otherLanguage, lang)}>{LANG_NAMES[other]}</a
+          >
+          {
+            donate && (
+              <Fragment>
+                <span
+                  class="block w-full h-px sm:w-px sm:h-3 bg-border shrink-0"
+                  aria-hidden="true"
+                />
+
+                {/* Donate dropdown — details/summary, no JS required */}
+                <details class="group/donate relative">
+                  <summary class="btn-donate">{t(common.donate, lang)}</summary>
+                  <ul
+                    class="hidden group-open/donate:block
+                    bg-bg border border-border rounded-card py-1 min-w-40 shadow-md
+                    sm:absolute sm:right-0 sm:top-full sm:mt-1 sm:z-50"
+                  >
+                    {DONATE_LINKS.map((d) => (
+                      <li>
+                        <a
+                          class="block px-4 py-2 text-sm text-text hover:bg-surface no-underline"
+                          href={d.href}
+                          target="_blank"
+                        >
+                          {d.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              </Fragment>
+            )
+          }
+        </div>
+      </div>
+    </header>
+
+    <div class="max-w-content mx-auto px-4 py-6">
+      <slot />
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div
+          set:html={common.footer(lang, localePath(lang, "/acknowledgements"))}
+        />
+        <div class="flex items-center gap-3">
+          <a href="https://losno.co" class="wordmark">
+            <img
+              src="https://assets.losno.co/WordmarkForLight.svg"
+              alt="LoSnoCo"
+              style="height: 14px;"
+            />
+          </a>
+          <a href="https://astro.build">
+            <img
+              src="https://astro.badg.es/v2/built-with-astro/tiny.svg"
+              alt={t(common.builtWithAstro, lang)}
+              width="120"
+              height="20"
+            />
+          </a>
+        </div>
+      </footer>
+    </div>
+    <script>
+      (() => {
+        "use strict";
+        const storedTheme = localStorage.getItem("theme");
+        const prefersDark = () =>
+          window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        const setTheme = (theme: string) => {
+          const isDark =
+            theme === "dark" || (theme === "auto" && prefersDark());
+          document.documentElement.classList.toggle("dark", isDark);
+          document.documentElement.setAttribute("data-theme", theme);
+        };
+
+        setTheme(storedTheme ?? (prefersDark() ? "dark" : "light"));
+
+        window
+          .matchMedia("(prefers-color-scheme: dark)")
+          .addEventListener("change", () => {
+            const stored = localStorage.getItem("theme");
+            if (stored !== "light" && stored !== "dark") setTheme("auto");
+          });
+
+        window.addEventListener("DOMContentLoaded", () => {
+          document.querySelectorAll("[data-theme-value]").forEach((el) => {
+            el.addEventListener("click", () => {
+              const theme = el.getAttribute("data-theme-value");
+              if (theme) {
+                localStorage.setItem("theme", theme);
+                setTheme(theme);
+              }
+            });
+          });
+
+          // Language switcher. public/_redirects sends Spanish browsers to
+          // /es/; Netlify reads nf_lang in place of Accept-Language, so the
+          // choice made here wins over the browser's on every later visit.
+          document
+            .querySelectorAll<HTMLElement>("[data-lang-switch]")
+            .forEach((el) => {
+              el.addEventListener("click", () => {
+                document.cookie = `nf_lang=${el.dataset.langSwitch}; path=/; max-age=31536000; SameSite=Lax`;
+              });
+            });
+
+          // Hamburger toggle
+          const btn = document.getElementById("nav-toggle");
+          const nav = document.getElementById("nav-body");
+          if (btn && nav) {
+            btn.addEventListener("click", () => {
+              const open = nav.classList.toggle("hidden");
+              btn.setAttribute("aria-expanded", String(!open));
+            });
+            // Close drawer when resizing to desktop
+            window
+              .matchMedia("(min-width: 640px)")
+              .addEventListener("change", (e) => {
+                if (e.matches) nav.classList.add("hidden");
+              });
+          }
+
+          // Scroll-driven reveal — IntersectionObserver-based so each item
+          // settles to its final state the moment it crosses into view, with
+          // no "stuck mid-animation" issue for elements pinned at page bottom.
+          const reveals = document.querySelectorAll<HTMLElement>(
+            ".scroll-reveal, .scroll-reveal-group > *:not(.scroll-reveal-group):not(.site-footer)",
+          );
+          if (
+            "IntersectionObserver" in window &&
+            !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ) {
+            const io = new IntersectionObserver(
+              (entries) => {
+                for (const entry of entries) {
+                  if (entry.isIntersecting) {
+                    entry.target.classList.add("is-revealed");
+                    io.unobserve(entry.target);
+                  }
+                }
+              },
+              { rootMargin: "0px 0px -8% 0px", threshold: 0 },
+            );
+            reveals.forEach((el) => io.observe(el));
+          } else {
+            // Reduced motion or no IO support — show everything immediately.
+            reveals.forEach((el) => el.classList.add("is-revealed"));
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

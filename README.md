@@ -17,6 +17,30 @@ this project as its last step, so that happens on its own; the hook lives in a
 `WEBSITE_BUILD_HOOK` secret on the XPCog repository. Cog's own appcast has no
 such wiring and relies on the next deploy.
 
+## Languages
+
+The site is in English and Spanish (under `/es/`, same slugs), built from one
+layout. Each page is a view in `src/views/` that takes a `lang`;
+`src/pages/` and `src/pages/es/` only mount it. `src/layouts/Base.astro`
+holds the head, the nav with its language switcher, and the footer.
+
+The words live in `src/strings/` (and the credit descriptions in
+`src/acknowledgements.ts`), with each string's English and Spanish side by
+side as `{ en, es }`. A plain string reads the same in both. So a change to
+the layout reaches both languages on its own, and a change to the text means
+editing the `es` next to the `en` you just touched — TypeScript rejects a
+`{ en }` without its `es`. See `src/i18n.ts`.
+
+The Spanish follows the apps' own catalogues: Cog's `*.xcstrings` and
+XPCog's `uicore/locale/es.po` (Chilean usage, "tú": playlist, pista,
+carátula, analizador, vúmetro, audífonos, parlantes). Release notes come
+from the feeds in English and stay English on the Spanish pages.
+
+Browsers whose first language is Spanish are sent to `/es/` by Netlify
+(`public/_redirects`). The nav's language switcher sets an `nf_lang` cookie,
+which Netlify honours over the browser's language, so picking English sticks.
+A new page needs its line in `_redirects` too.
+
 ## Commands
 
 | Command         | Action                                       |

@@ -13,9 +13,10 @@
  * informal "tú" — playlist, pista, carátula, letras, analizador, vúmetro,
  * audífonos, parlantes, inspector de información, inspector de señal.
  *
- * What comes from the feeds — Cog's appcast notes, XPCog's GitHub release
- * notes — is written in English and stays English on the Spanish pages,
- * marked `lang="en"`.
+ * What comes from the feeds is shown as written. XPCog's GitHub release notes
+ * are English and stay English on the Spanish pages, marked `lang="en"`.
+ * Cog's appcast links Spanish notes too from the build after 3868, and the
+ * Spanish page shows those; older Cog releases fall back to English.
  */
 
 import { filesize } from "filesize";

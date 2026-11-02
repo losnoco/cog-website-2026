@@ -1,7 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import ItemList from "../components/ItemList.astro";
-import { fetchCogReleases } from "../cog_feed";
+import { fetchCogReleases, notesFor } from "../cog_feed";
 import { formatDate, formatSize, localePath, t, type Lang } from "../i18n";
 import {
   home as s,
@@ -23,9 +23,17 @@ const releases = (await fetchCogReleases()).map((r) => ({
   ...r,
   size: formatSize(r.size, lang),
   date: formatDate(r.published, lang),
+  notes: notesFor(r, lang),
 }));
 const [latest, ...older] = releases;
+// Said only where the notes shown aren't in the page's language: on the
+// Spanish page, for releases from before the appcast had Spanish notes.
 const notesInEnglish = t(s.notesInEnglish, lang);
+const latestInEnglish = latest.notes.lang !== lang && notesInEnglish;
+const olderInEnglish = older.every((r) => r.notes.lang !== lang)
+  ? notesInEnglish
+  : older.some((r) => r.notes.lang !== lang) &&
+    t(s.olderNotesInEnglish, lang);
 ---
 
 <Base
@@ -68,8 +76,8 @@ const notesInEnglish = t(s.notesInEnglish, lang);
       <div class="hero-meta mb-3">
         {s.hero.meta[lang](latest.date, latest.minimumSystemVersion)}
       </div>
-      {notesInEnglish && <div class="hero-meta mb-2">{notesInEnglish}</div>}
-      <div class="hero-notes" lang="en" set:html={latest.notesHtml} />
+      {latestInEnglish && <div class="hero-meta mb-2">{latestInEnglish}</div>}
+      <div class="hero-notes" lang={latest.notes.lang} set:html={latest.notes.html} />
       <div class="mt-4">
         <a class="btn btn-sm btn-outline-losnoco" href="#older"
           >{t(s.hero.older, lang)}</a
@@ -139,7 +147,7 @@ const notesInEnglish = t(s.notesInEnglish, lang);
     </h2>
     <p class="text-body mb-4">
       {t(s.older.intro, lang)}
-      {notesInEnglish && " " + notesInEnglish}
+      {olderInEnglish && " " + olderInEnglish}
     </p>
     {
       older.map((item) => (
@@ -152,7 +160,7 @@ const notesInEnglish = t(s.notesInEnglish, lang);
               <span class="size-label">{item.size}</span>
             </a>
           </div>
-          <div class="version-notes" lang="en" set:html={item.notesHtml} />
+          <div class="version-notes" lang={item.notes.lang} set:html={item.notes.html} />
         </div>
       ))
     }

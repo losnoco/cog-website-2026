@@ -65,8 +65,14 @@ export const home = {
     },
   },
 
-  // Only the Spanish page says so: the notes come from the appcast as written.
+  // Only the Spanish page says so, for releases from before the appcast
+  // carried Spanish notes (the build after 3868 is the first with them).
   notesInEnglish: { en: "", es: "Notas de la versión en inglés." },
+  // The archive once it holds both kinds.
+  olderNotesInEnglish: {
+    en: "",
+    es: "Las notas de las versiones más antiguas están en inglés.",
+  },
 
   features: {
     label: { en: "Features", es: "Características" },

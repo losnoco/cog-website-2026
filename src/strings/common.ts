@@ -14,12 +14,12 @@ export const common = {
   footer: (lang: Lang, acknowledgementsHref: string) =>
     ({
       en:
-        `&copy; 2021–2026 <a href="https://kode54.net">Christopher Snowhill</a>. ` +
+        `&copy; 2021–2026 <a href="https://kode54.net">Christopher Snowhill</a> and Kevin López Brante. ` +
         `<a href="https://cogx.org/">Originally developed</a> by ` +
         `<a href="http://vspader.com/">Vincent Spader</a>. ` +
         `<a href="${acknowledgementsHref}">Acknowledgements</a>.`,
       es:
-        `&copy; 2021–2026 <a href="https://kode54.net">Christopher Snowhill</a>. ` +
+        `&copy; 2021–2026 <a href="https://kode54.net">Christopher Snowhill</a> y Kevin López Brante. ` +
         `<a href="https://cogx.org/">Desarrollado originalmente</a> por ` +
         `<a href="http://vspader.com/">Vincent Spader</a>. ` +
         `<a href="${acknowledgementsHref}">Agradecimientos</a>.`,

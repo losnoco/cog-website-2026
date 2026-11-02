@@ -327,8 +327,18 @@
     @apply text-technical text-muted mt-2;
     line-height: 1.65;
   }
-  .version-notes ul { @apply list-none p-0; }
-  .version-notes ul li { @apply py-0.5; }
+
+  /* Shared by .hero-notes and .version-notes. Old appcast entries are a
+     .commit-list of "view commit • message" lines, kept bulletless; newer
+     ones are a summary paragraph plus New / Improved / Fixed sections. */
+  :is(.hero-notes, .version-notes) > :first-child { @apply mt-0; }
+  :is(.hero-notes, .version-notes) h3 {
+    @apply text-subheading font-semibold text-text mt-4 mb-1 tracking-subheading;
+  }
+  :is(.hero-notes, .version-notes) p { @apply my-2; }
+  :is(.hero-notes, .version-notes) ul { @apply list-disc my-2; padding-left: 1.15rem; }
+  :is(.hero-notes, .version-notes) li { @apply py-0.5; }
+  :is(.hero-notes, .version-notes) .commit-list { @apply list-none my-0 p-0; }
 
   /* Release notes — GitHub release bodies, rendered from Markdown, so unlike
      .version-notes this has to survive whatever a release body contains:

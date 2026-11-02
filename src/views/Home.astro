@@ -69,7 +69,7 @@ const notesInEnglish = t(s.notesInEnglish, lang);
         {s.hero.meta[lang](latest.date, latest.minimumSystemVersion)}
       </div>
       {notesInEnglish && <div class="hero-meta mb-2">{notesInEnglish}</div>}
-      <ul class="hero-notes" lang="en" set:html={latest.notesHtml} />
+      <div class="hero-notes" lang="en" set:html={latest.notesHtml} />
       <div class="mt-4">
         <a class="btn btn-sm btn-outline-losnoco" href="#older"
           >{t(s.hero.older, lang)}</a
@@ -152,7 +152,7 @@ const notesInEnglish = t(s.notesInEnglish, lang);
               <span class="size-label">{item.size}</span>
             </a>
           </div>
-          <ul class="version-notes" lang="en" set:html={item.notesHtml} />
+          <div class="version-notes" lang="en" set:html={item.notesHtml} />
         </div>
       ))
     }

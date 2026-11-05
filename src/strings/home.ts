@@ -136,6 +136,12 @@ export const FEATURES_EVERYWHERE: Item[] = [
   },
   {
     text: {
+      en: "Multiple playlists: browse one while another plays, with one queue across them all, and copy tracks between them",
+      es: "Varias playlists: explora una mientras suena otra, con una sola cola para todas, y copia pistas entre ellas",
+    },
+  },
+  {
+    text: {
       en: "Shuffle, both albums and tracks",
       es: "Modo aleatorio, por álbumes y por pistas",
     },
@@ -186,8 +192,8 @@ export const FEATURES_EVERYWHERE: Item[] = [
   },
   {
     text: {
-      en: `Synced lyrics from the file's own tags, or looked up on <a href="https://lrclib.net">LRCLIB</a> when the file has none`,
-      es: `Letras sincronizadas desde las etiquetas del propio archivo, o buscadas en <a href="https://lrclib.net">LRCLIB</a> cuando el archivo no las tiene`,
+      en: `Synced lyrics that follow playback and seek to any line you pick, from the file's own tags, a <code>.lrc</code> file beside it, or <a href="https://lrclib.net">LRCLIB</a> when it has none`,
+      es: `Letras sincronizadas que siguen la reproducción y saltan a la línea que elijas, desde las etiquetas del propio archivo, un archivo <code>.lrc</code> junto a él, o <a href="https://lrclib.net">LRCLIB</a> cuando no las tiene`,
     },
   },
   {
@@ -204,8 +210,8 @@ export const FEATURES_EVERYWHERE: Item[] = [
   },
   {
     text: {
-      en: "Spectrum visualization and a stereo VU meter",
-      es: "Analizador y vúmetro estéreo",
+      en: "Spectrum visualization, a stereo VU meter, and a waveform shown as an oscilloscope or a scrolling envelope",
+      es: "Analizador, vúmetro estéreo y forma de onda, como osciloscopio o como envolvente en movimiento",
     },
   },
   {
@@ -255,8 +261,26 @@ export const FEATURES_MAC: Item[] = [
   },
   {
     text: {
-      en: "Dockable panes: the spectrum, the VU meter, the lyrics, and both inspectors dock around the playlist or float in their own windows",
-      es: "Paneles acoplables: el analizador, el vúmetro, las letras y los dos inspectores se acoplan alrededor de la playlist o flotan en sus propias ventanas",
+      en: "Playlist tabs: drag to reorder them, or drop files and tracks on one to add them to that playlist",
+      es: "Pestañas de playlists: arrástralas para reordenarlas, o suelta archivos y pistas sobre una para añadirlos a esa playlist",
+    },
+  },
+  {
+    text: {
+      en: "Dockable panes: the spectrum, the VU meter, the waveform, the lyrics, and both inspectors dock around the playlist or float in their own windows",
+      es: "Paneles acoplables: el analizador, el vúmetro, la forma de onda, las letras y los dos inspectores se acoplan alrededor de la playlist o flotan en sus propias ventanas",
+    },
+  },
+  {
+    text: {
+      en: "The spectrum, VU meter, and waveform as toolbar items, in both the main window and the mini player",
+      es: "El analizador, el vúmetro y la forma de onda como ítems de la barra de herramientas, tanto en la ventana principal como en el minirreproductor",
+    },
+  },
+  {
+    text: {
+      en: "Quick Look previews in Finder for the files macOS can't preview itself, with artwork, tags, and a seek bar",
+      es: "Previsualización con Vista rápida en el Finder de los archivos que macOS no puede previsualizar, con carátula, etiquetas y barra de progreso",
     },
   },
   {
@@ -305,6 +329,20 @@ export const FEATURES_IOS: Item[] = [
       en: "Now Playing themed from the album art, with a mini player in Liquid Glass",
       es: "En reproducción con los colores de la carátula, y un minirreproductor en Liquid Glass",
     },
+    children: [
+      {
+        text: {
+          en: "Visualizers that match the album art until you choose your own colors",
+          es: "Visualizadores con los colores de la carátula, hasta que elijas los tuyos",
+        },
+      },
+      {
+        text: {
+          en: "The audio format between the times, as in ALAC · 24-bit/96 kHz · 2116 kbps",
+          es: "El formato de audio entre los tiempos, como ALAC · 24-bit/96 kHz · 2116 kbps",
+        },
+      },
+    ],
   },
   {
     text: {
